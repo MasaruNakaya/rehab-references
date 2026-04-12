@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOAP記載ガイド — 整形外科・呼吸器・腫瘍内科 統合学習版</title>
+<style>
+:root {
+  --ortho:#1F4E79; --ortho-l:#E8F0FE;
+  --resp:#145A32;  --resp-l:#E8F8F0;
+  --onco:#6E2F76;  --onco-l:#F5EEF8;
+  --bg:#F7F8FA; --white:#fff; --text:#1a1a2e; --muted:#64748B; --border:#E2E8F0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.7;}
+
+.header{background:linear-gradient(135deg,#1e3a5f 0%,#2d6a4f 40%,#5b2c6f 100%);color:#fff;padding:28px 24px;text-align:center;}
+.header h1{font-size:20px;font-weight:700;}
+.header p{font-size:12px;opacity:.85;margin-top:4px;}
+
+nav{position:sticky;top:0;z-index:100;background:#fff;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+nav button{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--muted);transition:all .2s;font-family:inherit;}
+nav button:hover{opacity:.85;}
+nav button.active{color:#fff;}
+.f-all.active{background:#374151;border-color:#374151;}
+.f-ortho.active{background:var(--ortho);border-color:var(--ortho);}
+.f-resp.active{background:var(--resp);border-color:var(--resp);}
+.f-onco.active{background:var(--onco);border-color:var(--onco);}
+.f-basic.active{background:#D97706;border-color:#D97706;}
+
+.container{max-width:960px;margin:0 auto;padding:20px;}
+
+/* SOAP Basics */
+.basics-box{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:24px;}
+.basics-box h2{font-size:16px;margin-bottom:12px;color:var(--text);}
+.soap-letter{display:inline-block;width:28px;height:28px;border-radius:6px;text-align:center;line-height:28px;font-weight:700;color:#fff;font-size:14px;margin-right:8px;}
+.s-bg{background:#2563EB;} .o-bg{background:#059669;} .a-bg{background:#D97706;} .p-bg{background:#DC2626;}
+.basics-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+@media(max-width:640px){.basics-grid{grid-template-columns:1fr;}}
+.b-card{background:var(--bg);border-radius:8px;padding:14px;}
+.b-card h3{font-size:13px;margin-bottom:6px;display:flex;align-items:center;}
+.b-card p{font-size:12px;color:#475569;}
+.b-card .do{color:#059669;font-weight:700;font-size:11px;margin-top:6px;}
+.b-card .dont{color:#DC2626;font-weight:700;font-size:11px;margin-top:4px;}
+
+/* Example cards */
+.ex-section{margin-bottom:28px;}
+.ex-section-title{font-size:16px;font-weight:700;padding:10px 16px;color:#fff;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ex-section-title.dept-ortho{background:var(--ortho);}
+.ex-section-title.dept-resp{background:var(--resp);}
+.ex-section-title.dept-onco{background:var(--onco);}
+
+.ex-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:16px;transition:all .2s;}
+.ex-head{padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+.ex-head:hover{filter:brightness(.97);}
+.ex-head h3{font-size:14px;flex:1;}
+.ex-tags{display:flex;gap:4px;flex-wrap:wrap;}
+.ex-tag{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;color:#fff;}
+.tag-day{background:#2563EB;} .tag-scene{background:#7C3AED;} .tag-diff{background:#DC2626;} .tag-new{background:#059669;}
+.ex-toggle{font-size:16px;transition:transform .3s;margin-left:8px;}
+.ex-card.collapsed .ex-toggle{transform:rotate(-90deg);}
+.ex-card.collapsed .ex-body{display:none;}
+
+.ex-body{padding:0 16px 16px;}
+.scene-box{background:var(--bg);border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:13px;border-left:4px solid #94A3B8;}
+.scene-box strong{color:var(--text);}
+
+.soap-row{margin-bottom:14px;}
+.soap-label{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.soap-label span:first-child{font-weight:700;font-size:13px;}
+.soap-content{background:var(--bg);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.8;border-left:4px solid #94A3B8;}
+.soap-content.s-border{border-left-color:#2563EB;}
+.soap-content.o-border{border-left-color:#059669;}
+.soap-content.a-border{border-left-color:#D97706;}
+.soap-content.p-border{border-left-color:#DC2626;}
+
+.think-box{background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:10px 14px;margin-top:10px;font-size:12px;}
+.think-box strong{color:#92400E;}
+.think-box .arrow{color:#D97706;font-weight:700;}
+
+.ref-note{font-size:11px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+.ref-note a{color:#2563EB;text-decoration:none;}
+
+.note-box{background:#EFF6FF;border-left:4px solid #3B82F6;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px;}
+
+footer{text-align:center;color:#aaa;padding:24px;font-size:11px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SOAP記載ガイド — 3科統合学習版</h1>
+  <p>整形外科・呼吸器・腫瘍内科 30の臨床場面で学ぶカルテ記載と臨床思考</p>
+</div>
+
+<nav>
+  <button class="f-all active" onclick="filterEx('all',this)">すべて（30例）</button>
+  <button class="f-basic" onclick="filterEx('basic',this)">SOAP基本</button>
+  <button class="f-ortho" onclick="filterEx('ortho',this)">整形外科</button>
+  <button class="f-resp" onclick="filterEx('resp',this)">呼吸器</button>
+  <button class="f-onco" onclick="filterEx('onco',this)">腫瘍内科</button>
+</nav>
+
+<div class="container">
+
+<!-- ========== SOAP基本 ========== -->
+<div class="ex-section" data-dept="basic" id="sec-basic">
+<div class="basics-box">
+<h2>SOAP記載の基本原則</h2>
+<p style="font-size:13px;color:#475569;margin-bottom:12px;">SOAPは「事実→客観データ→臨床判断→計画」を論理的につなぐフレームワーク。新人が最初に身につけるべきは<strong>「なぜその判断をしたか」をAに書く力</strong>。</p>
+
+<div class="basics-grid">
+  <div class="b-card">
+    <h3><span class="soap-letter s-bg">S</span>Subjective（主観的情報）</h3>
+    <p>患者本人の訴え・言葉をそのまま記録。家族の情報も含む。</p>
+    <div class="do">書くべき：「歩くと膝が痛い」「昨日より息が楽」「だるくて動きたくない」</div>
+    <div class="dont">NG：PTの解釈を混ぜない（「疼痛増悪」はOに書く）</div>
+  </div>
+  <div class="b-card">
+    <h3><span class="soap-letter o-bg">O</span>Objective（客観的情報）</h3>
+    <p>バイタル、検査値、ROM、MMT、歩行距離など測定可能なデータ。</p>
+    <div class="do">書くべき：数値・具体的観察（「SpO₂ 94%→88% on 歩行50m」「NRS 5/10」）</div>
+    <div class="dont">NG：曖昧な表現（「ROM改善」→ 何度から何度？）</div>
+  </div>
+  <div class="b-card">
+    <h3><span class="soap-letter a-bg">A</span>Assessment（評価・判断）</h3>
+    <p><strong>最重要セクション。</strong>SとOから導かれる臨床判断・問題点の分析。</p>
+    <div class="do">書くべき：「SとOを統合すると〜と考えられる」「〜のため負荷増は時期尚早」</div>
+    <div class="dont">NG：Oの繰り返し（「6MWD 280m」はO）。Aには「280mはMCID未達であり〜」と書く</div>
+  </div>
+  <div class="b-card">
+    <h3><span class="soap-letter p-bg">P</span>Plan（計画）</h3>
+    <p>次回以降の具体的方針。変更点・継続点・相談事項を明記。</p>
+    <div class="do">書くべき：「歩行距離を100m→150mへ段階的に延長」「主治医へ荷重UP依頼予定」</div>
+    <div class="dont">NG：「リハ継続」だけ（何をどう続けるか不明）</div>
+  </div>
+</div>
+
+<div class="note-box" style="margin-top:16px;">
+  <strong>新人向けTIP：</strong>カルテは「未来の自分への手紙」。3日後に自分が読んで「前回何をして、なぜそうして、次に何をすべきか」がわかるように書く。他職種が読むことも意識する。
+</div>
+</div>
+</div>
+
+<!-- ========== 整形外科 SOAP例 ========== -->
+<div class="ex-section" data-dept="ortho">
+<div class="ex-section-title dept-ortho">🦴 整形外科 SOAP例（10例）</div>
+
+<!-- 例1: THA Day1 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例1：THA術後Day1 — 初回離床</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day1</span><span class="ex-tag tag-new">初回離床</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>70歳女性、右変形性股関節症に対し後方アプローチTHA施行。術後Day1、初回離床。Hb 10.2、ドレーン抜去済。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「手術した右足が重い感じがする」「立つのが怖い」「傷の痛みはNRS 4くらい」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    BT 37.2℃, BP 128/78, HR 82, SpO₂ 97%（room air）<br>
+    Hb 10.2 g/dL（術前12.8→術後低下あり）<br>
+    創部：発赤・腫脹軽度、ドレーン抜去済、出血量正常範囲<br>
+    右股関節ROM：屈曲60°（疼痛にて制限）、外転15°<br>
+    端座位：起立性低血圧なし（HR+12, BP-8）、保持3分可<br>
+    立位：平行棒内PWB → 右下肢接地可、体幹動揺あり<br>
+    歩行：平行棒内5m、PWBにて実施。右立脚期短縮あり<br>
+    NRS 歩行時5/10（創部周囲）、安静時3/10
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    THA（後方アプローチ）術後Day1。初回離床は起立性低血圧なく安全に実施できた。端座位・立位・平行棒内歩行まで到達。Hb 10.2と軽度貧血あるが離床に支障なし。疼痛NRS 5は活動時として許容範囲だが、鎮痛タイミングの調整で離床効率向上の余地あり※1。後方アプローチのため内旋＋内転＋過屈曲の複合動作を厳重に回避。右立脚期短縮は術後疼痛性跛行と考える。現時点ではERAS準拠の早期離床プロトコルに沿った順調な経過※2。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・明日Day2：歩行器歩行へ移行（病棟内50m目標）<br>
+    ・鎮痛薬服用後30分でリハ開始するようNs申し送り<br>
+    ・脱臼予防動作指導継続（トイレ動作・靴下着脱時の注意）<br>
+    ・大腿四頭筋・中殿筋のセッティング指導（自主トレ3回/日）<br>
+    ・DVT予防：足関節ポンプ運動の継続確認
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> 初回離床で最も重要なのは「安全に立てたか」と「起立性低血圧の有無」。これをOに明記。<br>
+  <span class="arrow">→</span> Aでは「順調/不順調の判断根拠」を述べる。Hb値と起立時バイタル変動を統合して判断。<br>
+  <span class="arrow">→</span> 後方アプローチの禁忌肢位への言及はAに必須。これが整形SOAPの特徴。<br>
+  <span class="arrow">→</span> Pの鎮痛タイミング調整は看護師への具体的申し送りにつながる実践的記載。
+</div>
+
+<div class="ref-note">※1 Fillingham YA, et al. J Arthroplasty 2020 / ※2 ERAS Society Guidelines Acta Orthop 2024</div>
+</div>
+</div>
+
+<!-- 例2: 大腿骨近位部骨折 高齢者 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例2：大腿骨近位部骨折 術後Day2 — 認知症合併</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day2</span><span class="ex-tag tag-diff">困難症例</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>85歳女性、左大腿骨転子部骨折（γネイル固定）。認知症（MMSE 16点）で荷重指示の理解困難。術後Day2、FWB許可あり。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「足？別に痛くないよ」（左下肢を指しても反応薄い）「家に帰りたい」「ご飯まだ？」<br>
+    ※手術をしたこと自体の認識が曖昧。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    BT 36.8℃, BP 138/82, HR 76, SpO₂ 96%<br>
+    Hb 9.8 g/dL, Alb 2.8 g/dL（低栄養状態）<br>
+    MMSE 16/30, HDS-R 12/30<br>
+    左股関節ROM：他動屈曲80°、疼痛表情あり（NRS聴取困難→Abbey Pain Scale 6/18 中等度）<br>
+    端座位：保持可（1分以上）、ただし後方への崩れ傾向あり<br>
+    立位：介助にて実施。左下肢自発的接地あり（FWB理解は不十分だが恐怖心少ない）<br>
+    歩行：歩行器＋軽介助にて10m。左Toe-touch気味だが声かけで踵接地改善<br>
+    MMSE16点：短期記憶障害顕著。「体重をかけてください」の指示は場面ごとに忘れる
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    大腿骨転子部骨折（γネイル）術後Day2。FWB許可だが認知症（MMSE 16）のため言語指示による荷重コントロールは困難。ただし恐怖心が少ないことが離床のアドバンテージ。立位・歩行器歩行10mまで到達できており、「言葉で説明する」より「動作の中で体が覚える」アプローチが有効と判断。Abbey Pain Scale 6→中等度疼痛があるため鎮痛管理が離床継続の鍵※1。低栄養（Alb 2.8）は創傷治癒遅延・サルコペニア進行リスクあり、NST連携が必要※2。オルトジェリアトリクス（整形×老年科）モデルに基づく多職種連携が予後改善に寄与するエビデンスあり※3。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・歩行距離を段階的延長（10m→病室〜トイレ間 約20m目標）<br>
+    ・荷重指導は「言語」ではなく「環境設定」で（手すりの高さ、歩行器配置）<br>
+    ・疼痛評価はAbbey Pain Scale継続（表情・体動・発声で評価）<br>
+    ・NST依頼：Alb低値に対しONS（経口栄養補助）追加を検討<br>
+    ・Ns申し送り：夜間せん妄リスクあり、転倒予防策の確認<br>
+    ・Day4-5で退院先検討カンファ予定（MSW連携開始）
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Sで認知機能の「現実」を具体的に記録（「手術の認識が曖昧」）。これが臨床判断の根拠になる。<br>
+  <span class="arrow">→</span> OでNRS聴取困難→代替ツール（Abbey Pain Scale）に切り替え。認知症患者で必須のスキル。<br>
+  <span class="arrow">→</span> Aの核心は「認知症＝リハ困難」ではなく「恐怖心が少ない＝離床のアドバンテージ」と読み替える視点。<br>
+  <span class="arrow">→</span> Pで「言語指示→環境設定」への切替を明記。これが認知症合併例の最大のコツ。
+</div>
+
+<div class="ref-note">※1 Abbey J, et al. Int J Palliat Nurs 2004 / ※2 Cruz-Jentoft AJ, et al. EWGSOP2 Age Ageing 2019 / ※3 Grigoryan KV, et al. J Orthop Trauma 2014</div>
+</div>
+</div>
+
+<!-- 例3: TKA ROM困難 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例3：TKA術後Day5 — ROM停滞（屈曲90°で壁）</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day5</span><span class="ex-tag tag-diff">困難症例</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>68歳男性、左TKA術後Day5。屈曲ROMが90°で3日間停滞。患者は疼痛への恐怖心が強い。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「曲げると痛くて怖い」「Day3からずっと同じ角度で全然進まない」「先生に120°まで曲げろと言われたけど無理」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    左膝ROM：屈曲90°（他動95°、end feel: 筋性防御）、伸展-5°<br>
+    Day3: 85° → Day4: 90° → Day5: 90°（3日停滞）<br>
+    腫脹：膝蓋骨上方周径 +3.5cm（健側比）<br>
+    NRS：安静時2、ROM練習時7、歩行時4<br>
+    大腿四頭筋 lag: 10°（SLR遅延あり）<br>
+    NMES使用中：内側広筋の収縮は視認可だが弱い<br>
+    TENS＋アイシング：ROM練習前20分実施→実施後NRS 7→5に軽減<br>
+    歩行：歩行器にてFWB 50m可、膝折れなし
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    TKA術後Day5、屈曲ROM 90°で3日停滞。end feelが筋性防御であることから、構造的制限（癒着・拘縮）ではなく疼痛性防御反応が主因と考える。腫脹が+3.5cmと残存しており、炎症管理の強化が第一優先※1。TENS＋アイシング後にNRSが7→5に低下しており物理療法の先行は有効※2。恐怖心（キネシオフォビア）が動作制限の増幅因子となっている可能性があり、「無理に曲げる」アプローチは逆効果。痛みの少ない範囲での反復運動と段階的暴露が望ましい。Day7までに屈曲100°未達の場合、主治医と関節授動術の適応を検討。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・TENS(80Hz/100μs)＋アイシング20分 → ROM練習の順序を徹底<br>
+    ・ROM練習：ヒールスライドを「痛くない範囲」で反復（自動運動中心）<br>
+    ・膝蓋骨モビライゼーション（上下・内外方向）5分追加<br>
+    ・NMES設定見直し：周波数35Hz→50Hz、on/off 10s/15s→10s/10sに変更※3<br>
+    ・患者教育：「90°は退院基準の通過点。焦らず毎日1-2°で十分」と説明<br>
+    ・Day7にROM再評価 → 100°未達なら主治医へ報告
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oで「end feel: 筋性防御」を記録するのが鍵。これがAの「構造的ではなく疼痛性」という判断根拠になる。<br>
+  <span class="arrow">→</span> ROM練習前後のNRS変化を記録（TENS効果の客観的評価）。<br>
+  <span class="arrow">→</span> Aで「キネシオフォビア」という概念を使い、心理的要因にも言及。整形でも心理面の記載は重要。<br>
+  <span class="arrow">→</span> Pでは具体的なNMESパラメータ変更まで書く。これが整形ならではの詳細さ。
+</div>
+
+<div class="ref-note">※1 Tedesco D, et al. JAMA Surg 2017 / ※2 Gibson W, et al. Eur J Pain 2017 / ※3 Fillingham YA, et al. J Arthroplasty 2018</div>
+</div>
+</div>
+
+<!-- 例4: SCI AIS C -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例4：脊髄損傷 AIS C — 歩行再建の初期評価</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">SCI</span><span class="ex-tag tag-new">歩行予後判定</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>45歳男性、C5不全頸髄損傷（AIS C）受傷後3週。上下肢に不全麻痺あり。歩行再建の可能性を評価する段階。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「足の感覚は少しある」「右足は力が入るけど左は全然」「また歩けるようになりたい」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    AIS C（運動不全）、NLI: C5<br>
+    下肢筋力（ISNCSCI key muscles）：<br>
+    　右 L2: 3, L3: 2, L4: 2, L5: 1, S1: 1<br>
+    　左 L2: 2, L3: 1, L4: 1, L5: 0, S1: 0<br>
+    下肢LEMS（Lower Extremity Motor Score）：右9/25、左4/25、合計13/50<br>
+    深部感覚：右足関節位置覚 残存、左足関節位置覚 脱失<br>
+    ブリッジ動作：殿部挙上3cm、5秒保持困難<br>
+    端座位保持：軽介助にて可（体幹動揺大、左側への崩れ）<br>
+    WISCI II: 0（歩行不能）<br>
+    SCIM III: 42/100
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    C5 AIS C、受傷後3週。LEMS 13/50。van Middendorp予測ルール※1に基づくと、受傷4週以内のAIS CでLEMS≥10は歩行再建の可能性が中〜高程度。ただし左下肢LEMS 4と左右差が大きく、左下肢の回復が歩行自立の律速段階になる。深部感覚の左右差（右残存/左脱失）も歩行の質に影響する。ブリッジ動作で殿部挙上3cmが可能であることは体幹・骨盤帯の motor pool 残存を示唆し、予後良好因子と考える※2。現段階では座位バランス確立と残存筋力の賦活が優先課題。冨田の治療的誘導の概念※3を用いた座位での重心移動訓練から開始が適切。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・座位バランス訓練：治療的誘導を用いた重心移動（前後・左右）<br>
+    ・右下肢残存筋力強化：key muscles（腸腰筋・大腿四頭筋）の反復収縮訓練<br>
+    ・左下肢：EMS（大腿四頭筋 35Hz, 300μs）＋自動介助運動<br>
+    ・2週後にISNCSCI再評価 → AIS変換の有無確認<br>
+    ・LEMS 20到達時点で起立台訓練開始を検討<br>
+    ・長期目標：WISCI II 13以上（歩行器＋片側AFO＋監視）
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> OのLEMS（下肢運動スコア）が歩行予後判定の鍵。合計と左右差を分けて記載。<br>
+  <span class="arrow">→</span> Aで「van Middendorp予測ルール」という根拠を使って歩行可能性を定量的に論じる。<br>
+  <span class="arrow">→</span> ブリッジ動作の「3cm」を「motor pool残存の示唆」と読み替える。動作所見を神経学的解釈につなげるのがSCIの思考。<br>
+  <span class="arrow">→</span> Pで「LEMS 20到達時に起立台」と数値で次の判断基準を設定しておく。
+</div>
+
+<div class="ref-note">※1 van Middendorp JJ, et al. Lancet 2011;377:1004 / ※2 Scivoletto G, et al. Brain Res Bull 2014 / ※3 冨田昌夫. 理学療法ジャーナル 1997;31(11):821</div>
+</div>
+</div>
+
+<!-- 例5: 足関節骨折 退院前 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例5：足関節骨折 術後3週 — FWB移行＋退院判定</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">3週</span><span class="ex-tag tag-scene">退院判定</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>52歳男性、右足関節三果骨折（ORIF）術後3週。PWB→FWB移行許可。退院に向けたゴール達成度を評価。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「体重かけても前よりは怖くない」「階段がまだ不安」「仕事は立ち仕事だからいつ戻れるか心配」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    右足関節ROM：背屈10°（健側20°）、底屈35°（健側45°）<br>
+    腫脹：外果周径 +1.5cm（改善傾向、前週+2.5cm）<br>
+    FWB歩行：T-cane使用100m、跛行軽度（右立脚期での背屈不足による蹴り出し低下）<br>
+    階段：昇り○（手すり使用）、降り△（2足1段、右荷重時に不安感）<br>
+    カーフレイズ：片脚立位不可→両脚で10回可<br>
+    NRS：歩行時2/10、階段降り時4/10
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    足関節三果骨折術後3週、FWB移行成功。杖歩行100mが可能で平地ADLは自立レベル。主な機能制限は背屈制限（10°/健側20°）で、これが蹴り出し低下と階段降りの不安定性に直結している※1。背屈10°は歩行に必要な最低限（正常歩行に必要な背屈は約10°）を確保しているが、階段や坂道では不足。関節モビライゼーション（距腿関節の後方滑り）で改善の余地あり※2。腫脹は改善傾向であり、組織治癒は順調。退院基準（杖歩行自立・階段可能・自宅内ADL自立）はほぼ達成。階段降りの安定性向上が残課題。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・距腿関節モビライゼーション（後方滑り Grade III）5分/回<br>
+    ・ヒールスライドでの自動背屈ROM訓練（自主トレ10回×3セット）<br>
+    ・カーフレイズ段階的進行：両脚→片脚へ（退院後の自主トレメニュー）<br>
+    ・退院予定：3日後。退院時指導実施予定（自主トレメニュー・復職時期目安の説明）<br>
+    ・復職（立ち仕事）は術後8-12週が目安であることを説明済※3
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oの背屈ROM「10°」に対し、Aで「正常歩行に必要な最低限」と臨床的意味を解説。数値と機能をつなぐのがAの役割。<br>
+  <span class="arrow">→</span> 退院基準を明記し、達成度を評価。退院判定SOAPの基本形。<br>
+  <span class="arrow">→</span> 復職時期の目安をPに含める。患者の生活背景（立ち仕事）を踏まえた個別化計画。
+</div>
+
+<div class="ref-note">※1 Lewis SR, et al. Cochrane 2024 / ※2 Albin SR, et al. JOSPT 2019 / ※3 Stufkens SA, et al. Injury 2011</div>
+</div>
+</div>
+
+</div>
+
+<!-- 例6: 脊柱管狭窄症 術後 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例6：腰部脊柱管狭窄症 開窓術後Day2 — 離床と神経症状モニタリング</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day2</span><span class="ex-tag tag-scene">脊椎</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>74歳男性、L4/5 LSS（Schizas C/D）に対し後方除圧術施行。術後Day2、コルセット装着下で初回離床。術前は間欠性跛行200m。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「腰の傷は痛いけど、前みたいな足のしびれがない」「手術前は200m歩くと足がしびれて止まってたから、それがなくなったのが嬉しい」「コルセットが窮屈」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">BT 37.0℃, BP 132/78, HR 80, SpO₂ 97%<br>コルセット装着、ドレーン抜去済<br>下肢神経学的所見：L5領域 足趾背屈 MMT 4/4（術前3/4→改善）、感覚 正常（術前低下→改善）<br>下肢しびれ：VAS 1/10（術前 6/10）<br>SLR：両側70°以上（陰性）<br>創部痛 NRS：安静3、動作時5<br>端座位：保持5分可、腰部疼痛増悪なし<br>立位：平行棒内にて安定<br>歩行：歩行器使用30m、間欠性跛行なし、歩容安定</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">LSS（L4/5）後方除圧術後Day2。下肢神経症状は著明に改善（しびれVAS 6→1、足趾背屈MMT 3→4）。術後初回離床は起立性低血圧なく歩行器30m可。重要なのは術前の間欠性跛行が消失していること。コルセット装着下の腰部安定性は良好。現時点では順調な経過。ただし除圧術後の硬膜外血腫による急性神経悪化は術後48-72hがピークであり※1、今後24hは下肢筋力・膀胱直腸障害の変化に注意が必要。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・歩行距離延長：30m→100m（病棟1周）目標<br>・腰椎前弯増強姿勢を回避する動作指導（靴の着脱・物の拾い方）<br>・体幹深部筋エクササイズ導入（ドローイン、腹横筋収縮）※2<br>・Ns申し送り：下肢筋力低下・排尿障害の新規出現があれば緊急連絡<br>・退院目標：Day7-10、杖歩行自立＋階段可能</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> Sで「しびれがない」という改善実感を記録。術前との比較が脊椎術後SOAPの要。<br><span class="arrow">→</span> Oで術前→術後の神経学的所見を並記（MMT 3→4）。脊椎は「神経の変化」が最重要データ。<br><span class="arrow">→</span> Aで硬膜外血腫リスクの時間帯に言及。「順調」だけでなく「次の危険」を予測。</div>
+<div class="ref-note">※1 NORDSTEN-SST Trial Eur Spine J 2024 / ※2 Kernc D, et al. BMC Musculoskelet Disord 2018</div>
+</div></div>
+
+<!-- 例7: 圧迫骨折 BKP後 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例7：圧迫骨折 BKP術後Day1 — 隣接椎体骨折リスク管理</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day1</span><span class="ex-tag tag-diff">骨粗鬆症</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>82歳女性、L1圧迫骨折に対しBKP（バルーン椎体形成術）施行。骨粗鬆症あり（T-score -3.2）。術前は腰背部痛で寝たきり2週間。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「嘘みたいに痛くない」「2週間寝てたから足に力が入らない」「転んだらまた折れるんでしょ？怖い」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">BT 36.6℃, BP 140/82, HR 78<br>腰背部痛 NRS：安静1/10（術前8/10→劇的改善）、起居動作時3/10<br>T-score -3.2、FRAX 主要骨折確率 28%<br>下肢筋力：大腿四頭筋 MMT 3/3、腸腰筋 3/3（2週間臥床による廃用性筋力低下）<br>端座位：保持可、円背姿勢目立つ<br>立位：手すり把持にて可、膝折れ傾向あり<br>歩行：歩行器＋軽介助10m、体幹動揺大<br>バランス：片脚立位不可、TUG 実施困難</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">L1圧迫骨折BKP後Day1。疼痛は劇的に改善（NRS 8→1）し離床可能となった。しかし2週間の臥床で下肢筋力はMMT3レベルまで低下しており、転倒リスクが高い。T-score -3.2・FRAX 28%は再骨折高リスクであり、BKP後の隣接椎体骨折発生率は12-20%とされる※1。「転んだらまた折れる」という患者の恐怖は医学的に正しい認識であり、転倒予防が最重要課題。疼痛改善による過活動（動きすぎ）にも注意が必要。骨粗鬆症治療（デノスマブ or テリパラチド）の確認と、転倒予防のための段階的筋力回復プログラムが並行して必要。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・歩行器歩行の安全な距離拡大（10m→30m→病棟内50m）<br>・転倒予防：ベッド周りの環境整備、ナースコール指導、夜間トイレ動作の確認<br>・下肢筋力強化：座位でのSLR・膝伸展運動（10回×3セット/日）<br>・円背姿勢に対する脊柱伸展意識の指導（ただしL1への過度な伸展は避ける）<br>・骨粗鬆症薬の確認→未開始なら主治医へ提案※2<br>・退院前に自宅環境評価（段差・手すり・浴室）をMSWと連携</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> BKP後の「痛みが取れた＝問題解決」ではない。Aで隣接椎体骨折リスクと廃用の二重問題を論じる。<br><span class="arrow">→</span> 患者の恐怖を「正しい認識」として肯定。不安を否定せず、具体的な対策につなげる。<br><span class="arrow">→</span> PTが骨粗鬆症治療の状況を確認し、未開始なら医師に提案。薬剤への関与もPTの役割。</div>
+<div class="ref-note">※1 Korovessis P, et al. Front Surg 2025 / ※2 NASS Guidelines 2024</div>
+</div></div>
+
+<!-- 例8: 脛骨高原骨折 荷重制限 -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例8：脛骨高原骨折 Schatzker V 術後2週 — NWB期のリハ戦略</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">2週</span><span class="ex-tag tag-scene">NWB管理</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>48歳男性、右脛骨高原骨折Schatzker V型（ダブルプレート固定）。術後2週、NWB継続中。6週でPWB開始予定。建設作業員で復職希望あり。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「体重かけちゃダメってわかってるけど、松葉杖がつらい」「膝が固まってきてる感じがする」「いつ仕事に戻れるのか不安」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">右膝ROM：屈曲75°（他動85°）、伸展-5°（正座位でのヒールスライド）<br>膝蓋骨可動性：上下・内外ともに制限あり<br>大腿四頭筋周径：右37cm / 左41cm（-4cm、患側萎縮進行）<br>松葉杖歩行：病棟100m自立、ただし右脇窩痛あり<br>NWB遵守：荷重計確認 0kg（遵守良好）<br>腫脹：膝蓋骨上方周径 +4cm<br>DVT スクリーニング：下腿周径差なし、Homans' sign 陰性、D-dimer 未検</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">脛骨高原骨折Schatzker V術後2週、NWB継続中。膝屈曲75°はNWB期としては標準的だが、膝蓋骨可動性制限と大腿四頭筋萎縮（-4cm）が進行しており、荷重開始前の筋力準備が不十分になるリスクがある※1。NWB遵守は良好だが松葉杖の脇窩痛は不適切なフィッティングの可能性。SchatzkerⅤ型は高エネルギー外傷で関節面損傷が大きく、復職（建設業）には術後6か月以上を要する場合がある※2。現段階ではNWB期にできる最大限の準備（ROM維持・筋力温存・有酸素能維持）に集中すべき。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・ROM練習：ヒールスライド＋膝蓋骨モビライゼーション（上下・内外）毎日<br>・CPM使用検討（主治医と相談、90°到達後は自動運動中心へ）<br>・大腿四頭筋：パテラセッティング100回/日＋NMES（50Hz, 300μs）<br>・松葉杖フィッティング再調整（前腕型ロフストランドへの変更検討）<br>・有酸素能維持：座位での上肢エルゴメーター 20分/日<br>・復職時期の目安を主治医と相談し、患者・職場と共有予定<br>・次回X線（4週時点）でPWB開始時期を最終判断</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> NWB期のSOAPは「できないこと」より「NWB中にできる最大限」を計画するのがポイント。<br><span class="arrow">→</span> 大腿四頭筋周径の左右差を数値で記録。荷重開始時の比較データとして貴重。<br><span class="arrow">→</span> 復職に関する具体的な見通しをPに含める。患者の生活背景を常に意識。</div>
+<div class="ref-note">※1 Iliopoulos E, et al. SAGE Open Med 2020 / ※2 Robertson GAJ, et al. World J Orthop 2017</div>
+</div></div>
+
+<!-- 例9: DVT疑い -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例9：TKA術後Day3 — リハ中にDVT疑い所見を発見</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day3</span><span class="ex-tag tag-diff">DVT疑い</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>72歳女性、左TKA術後Day3。歩行訓練開始予定でベッドサイドに行くと、左下腿の腫脹と疼痛の訴え。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「昨日の夜からふくらはぎが痛くなった」「膝じゃなくてふくらはぎ」「熱い感じがする」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">BT 37.8℃, HR 92, SpO₂ 96%<br>左下腿周径：34cm（右29cm、+5cm）※術後の膝腫脹とは別に下腿が著明に腫脹<br>左下腿：皮膚発赤・熱感あり、圧痛あり（腓腹筋部）<br>Homans' sign：足関節背屈時に下腿痛誘発（陽性）<br>Wells score（DVT）：術後＋1、下腿腫脹3cm以上＋1、圧痛＋1、浮腫＋1 = 4点（高リスク）<br>左膝ROM：屈曲85°（前日95°→悪化）<br><strong>→ DVT高リスクと判断し、歩行訓練は実施せず主治医へ報告</strong></div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">TKA術後Day3、左下腿にDVT疑い所見。Wells score 4点（高リスク）、下腿周径差+5cm、Homans' sign陽性、発赤・熱感あり。TKA後のDVT発生率は予防策実施下でも2-4%とされる※1。本日の歩行訓練はDVTによるPE（肺塞栓）リスクがあるため中止が適切。確定診断（下肢静脈エコー＋D-dimer）を主治医に緊急依頼。膝ROM悪化（95→85°）もDVTによる腫脹・疼痛の影響の可能性。DVT確定時は抗凝固療法開始後にリハ再開のタイミングを主治医と協議する。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・<strong>本日のリハ中止</strong>（PE予防のため歩行・下肢運動すべて中止）<br>・主治医へ緊急報告：DVT疑い（Wells 4点、所見詳細を伝達）→ エコー＋D-dimer依頼<br>・ベッド上安静、患肢挙上<br>・DVT確定時：抗凝固療法開始後24-48hでリハ再開の可否を再評価<br>・DVT否定時：明日から通常リハ再開<br>・看護師申し送り：胸痛・呼吸困難・SpO₂低下があればPE疑いで緊急連絡</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> 「膝じゃなくてふくらはぎ」というSの一言がDVT疑いの最初の手がかり。患者の言葉を正確に記録する重要性。<br><span class="arrow">→</span> OでWells scoreを算出。スコアリングで「感覚的な判断」を「根拠のある判断」に変える。<br><span class="arrow">→</span> <strong>「リハを中止する」判断のSOAP</strong>は最も重要なパターンの一つ。やらない判断こそ根拠を明記。<br><span class="arrow">→</span> PE（肺塞栓）の警告サインをNs申し送りに含める。PTが命を守る場面。</div>
+<div class="ref-note">※1 Falck-Ytter Y, et al. Chest 2012 / 日本整形外科学会 VTE予防GL 2017</div>
+</div></div>
+
+<!-- 例10: THA PLLD -->
+<div class="ex-card" data-dept="ortho">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--ortho-l);">
+  <h3>例10：THA術後2週 — 自覚的脚長差（PLLD）の訴え</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">2週</span><span class="ex-tag tag-scene">PLLD</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>65歳女性、右THA（前方アプローチ）術後2週。歩行は自立したが「右足が長い感じ」と訴え続ける。X線上の脚長差は3mm（臨床的に無視できるレベル）。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「右足が長くなった気がしてまっすぐ歩けない」「左の靴にインソール入れてほしい」「術前はこんな感覚なかった」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">X線上脚長差：3mm（右長、臨床的許容範囲）<br>棘果長：右83cm / 左82.5cm（差0.5cm）<br>右股関節ROM：屈曲100°、外転30°、内旋15°<br>右中殿筋 MMT 4、右腸腰筋 MMT 4<br>歩行：T-cane自立 200m、右立脚期にやや体幹左傾斜<br>片脚立位：右10秒（左15秒）<br>骨盤アライメント：右ASIS上方偏位（腸腰筋短縮 or 中殿筋弱化による代償的骨盤挙上の可能性）<br>5mm補高テスト：左靴に5mm補高 → 「少し楽になった気がする」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">右THA後2週、PLLDの訴え。X線上の実測脚長差は3mmで臨床的に有意ではないが、自覚的脚長差（PLLD: Perceived Leg Length Discrepancy）はTHA後の30-40%に生じるとされ※1、実測値との乖離が特徴。本症例では骨盤アライメント不整（右ASIS上方偏位）が認められ、術後の筋スパズム・腸腰筋短縮が「脚が長い」感覚を作っている可能性が高い。5mm補高テストで一時的な改善を認めるが、筋アンバランスが根本原因の場合、補高は対症療法にすぎない。中殿筋・腸腰筋の筋力回復と骨盤アライメント矯正が本質的なアプローチ※2。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・一時的に左靴に5mm補高を使用（心理的安心感も含め）<br>・腸腰筋ストレッチ（Thomas test 位で15秒×5回/日）<br>・中殿筋強化：側臥位外転挙上→CKB（クラムシェル）→立位での片脚バランス<br>・骨盤アライメント矯正：骨盤ティルト運動、ブリッジでの骨盤対称性訓練<br>・2週後に補高テスト再評価 → PLLDが軽減していれば補高を漸減<br>・患者教育：「実際の脚長差はほぼなく、筋肉のアンバランスが原因で脚が長く感じる。筋力が回復すれば改善する」と説明済</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> X線上の実測値（3mm）と自覚症状の乖離がPLLDの特徴。Oに両方記載して対比。<br><span class="arrow">→</span> 「補高が欲しい」という患者の要望に対し、すぐに応じつつも根本原因（筋アンバランス）をAで分析。<br><span class="arrow">→</span> Pで「一時的補高＋根本的筋力回復」の二段構えにする。どちらか一方では不十分。</div>
+<div class="ref-note">※1 Miki H, et al. J Biomech 2004 / ※2 Bandholm T, et al. Phys Ther 2023</div>
+</div></div>
+
+<!-- ========== 呼吸器 SOAP例 ========== -->
+<div class="ex-section" data-dept="resp">
+<div class="ex-section-title dept-resp">🫁 呼吸器 SOAP例（10例）</div>
+
+<!-- 例6: COPD急性増悪 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例6：COPD急性増悪（AECOPD）後 — 早期リハ開始</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">入院3日目</span><span class="ex-tag tag-new">リハ開始判断</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>72歳男性、COPD（GOLD III）急性増悪で入院3日目。抗菌薬＋ステロイド投与中。酸素3L/min。リハオーダーあり、開始判断。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「息がまだ苦しい」「トイレまで歩くのがやっと」「夜は座ったまま寝ている」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    O₂ 3L/min nasal, SpO₂ 安静時93%, BP 132/80, HR 88, RR 22<br>
+    CAT score: 28/40（増悪前ベースラインは18と自己申告）<br>
+    mMRC: 4（着替え程度で息切れ）<br>
+    端座位：SpO₂ 91%→安定、Borg 呼吸困難3<br>
+    歩行（ベッド→トイレ約8m）：SpO₂ 93→86%、Borg 7、HR 88→108、RR 22→30<br>
+    歩行後回復：SpO₂ 90%超に戻るまで3分30秒<br>
+    呼吸パターン：浅く速い（口すぼめ呼吸の習慣なし）<br>
+    握力：右18kg / 左16kg（サルコペニア疑い）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    COPD GOLD III、AECOPD入院3日目。8m歩行でSpO₂ 93→86%（7%低下）、回復に3分30秒を要し、現時点での運動耐容能は著しく低下。ただし安静時SpO₂ 93%（O₂ 3L）かつ端座位で安定しており、リハ開始基準は満たす。AECOPD後4週以内のリハ開始が再入院率低下に寄与するエビデンスあり※1。まず口すぼめ呼吸の指導と端座位〜病棟内短距離歩行から開始が妥当。SpO₂<88%の持続は中止基準とする。CAT 28（ベースライン18）→退院時にベースラインへの回復（MCID: 2点改善※2）を目標とする。握力低下からサルコペニア合併の可能性あり、栄養評価も併行すべき。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・口すぼめ呼吸指導（吸:呼 = 1:2〜3、今日から継続練習）※3<br>
+    ・歩行：病室内10m × 3回/日（O₂ 3L、SpO₂≥88%を下限に）<br>
+    ・Borg ≤ 4を目安に負荷調整（インターバル歩行パターン）<br>
+    ・1minSTS実施可能になった時点でベースライン評価<br>
+    ・栄養スクリーニング依頼（握力低下、Alb確認）<br>
+    ・退院前に6MWT評価予定
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oで「歩行中のSpO₂変化」と「回復時間」を記録。呼吸器SOAPの最重要データ。<br>
+  <span class="arrow">→</span> Aで「開始してよいか」の判断根拠を明示。Go/No-Goの思考を文章化。<br>
+  <span class="arrow">→</span> 「SpO₂<88%の持続は中止基準」とAに書いておくと、次のPTが担当しても安全に介入できる。<br>
+  <span class="arrow">→</span> Borgの数値目標（≤4）をPに入れることで、具体的な「今日の負荷上限」が伝わる。
+</div>
+
+<div class="ref-note">※1 Puhan MA, et al. Cochrane 2016 / ※2 Kon SS, et al. Eur Respir J 2014（CAT MCID） / ※3 Tiep BL, et al. Chest 1986</div>
+</div>
+</div>
+
+<!-- 例7: IPF増悪後 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例7：IPF急性増悪後 — 過負荷を避ける判断</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">ILD</span><span class="ex-tag tag-diff">負荷判断困難</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>78歳男性、IPF（UIPパターン）急性増悪後2週。ステロイドパルス終了、プレドニン30mg内服中。O₂ 4L。「リハ進めてほしい」と主治医からオーダーあるが…
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「調子いい日と悪い日がある」「昨日は歩けたけど今日は息が苦しい」「家族が心配してる」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    O₂ 4L nasal, SpO₂ 安静時92%, HR 96, RR 24<br>
+    端座位5分：SpO₂ 90%, Borg 呼吸困難2<br>
+    歩行（前回 20m可）→ 今日10m地点でSpO₂ 82%、Borg 6、HR 120<br>
+    → 歩行中止、椅子座位で口すぼめ呼吸実施 → 3分でSpO₂ 89%回復<br>
+    前日との比較：前日は20m歩行でSpO₂ 最低86%だった → 今日は10mで82%<br>
+    KL-6: 1850 U/mL（前週2200→やや改善傾向だが高値持続）<br>
+    Dyspnoea-12: 28/36
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    IPF急性増悪後2週。主治医からリハ推進の指示があるが、本日は前日比でSpO₂低下が著明（20mで86%→10mで82%）であり、日内・日差変動が大きい不安定期にある。IPF急性増悪後は過負荷による再増悪リスクがあり、最初の2週間は「疲れない強度」を厳守すべき※1。KL-6はやや改善傾向だが依然高値。本日はSpO₂ 82%到達で適切に中止判断した。「日による変動がある」ことをSで患者自身も認識しており、「良い日」に合わせた負荷設定をすると「悪い日」に過負荷になる危険がある。安全マージンを大きく取った設定が必要。Dyspnoea-12: 28と呼吸困難のQOL影響が大きい。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・本日の歩行負荷を10m→5m × 複数回（インターバル方式）に下方修正<br>
+    ・SpO₂下限を88%ではなく<strong>85%</strong>に設定（IPF患者はCOPDより低下速度が速い）<br>
+    ・口すぼめ呼吸の回復テクニック反復練習<br>
+    ・「調子の悪い日」はベッド上での四肢の自動運動＋座位保持に切替（無理しないルール）<br>
+    ・主治医へ報告：日差変動が大きく、歩行負荷は慎重に段階付けしている旨<br>
+    ・KL-6推移を週1フォロー
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> 「前日と今日」の比較をOに書く。呼吸器では日差変動の記録が極めて重要。<br>
+  <span class="arrow">→</span> Aで「主治医の指示」と「今日の状態」のギャップを論理的に整理。「リハ推進」でも「今日は下方修正」が正しい判断である理由を明記。<br>
+  <span class="arrow">→</span> IPF特有の「SpO₂低下速度の速さ」に言及。COPDとの違いがわかるA記載。<br>
+  <span class="arrow">→</span> Pで「調子の悪い日のルール」を事前に設定。次の担当者が迷わない。
+</div>
+
+<div class="ref-note">※1 ATS Clinical Practice Guideline 2023 Am J Respir Crit Care Med</div>
+</div>
+</div>
+
+<!-- 例8: ICU-PICS -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例8：ICU後PICS — 人工呼吸器離脱後の初回評価</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">ICU/PICS</span><span class="ex-tag tag-new">初回評価</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>60歳女性、重症肺炎→ARDS→ICU 14日間（人工呼吸器12日間）。一般病棟転棟後初日。ICU-AWが疑われる。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「体に力が入らない」「声が出にくい」「ICUにいた時のことを夢に見る」「何日経ったかわからなかった」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    O₂ 2L nasal, SpO₂ 95%, HR 92, BP 110/68<br>
+    ICU在室14日、MV 12日間、鎮静（プロポフォール＋デクスメデトミジン）<br>
+    MRC-SS（Medical Research Council Sum Score）: 36/60（ICU-AW基準<48に該当）※1<br>
+    　上肢：肩屈曲3/3、肘屈曲3/3、手関節背屈3/3<br>
+    　下肢：股屈曲2/3、膝伸展2/2、足背屈2/2<br>
+    握力：右10kg / 左8kg（年齢性別基準の約40%）<br>
+    端座位：保持可（2分、体幹動揺あり、疲労感出現）<br>
+    立位：起立困難（膝折れ）→未実施<br>
+    嗄声あり（挿管後遺症）、嚥下：水分でむせ1回あり
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    重症肺炎→ARDS後、MV 12日間の長期人工呼吸管理後。MRC-SS 36/60でICU-AW（ICU-Acquired Weakness）に該当※1。特に下肢近位筋の筋力低下が顕著（MMT 2レベル）で、現時点で立位は困難。PICS（Post-Intensive Care Syndrome）の身体面に加え、Sの「ICUの夢を見る」発言はPICS精神面（PTSD様症状）の可能性も示唆※2。端座位2分が現在の最大耐久性。ARDS生存者の5年後身体機能は正常予測値の60-70%にとどまるエビデンスがあり※3、長期的な視野での目標設定が必要。嚥下障害の評価もSTとの連携が必要。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・端座位耐久性の延長（2分→5分→10分と段階的に）<br>
+    ・四肢の自動運動＋軽抵抗運動（特に下肢近位筋：SLR・ブリッジ）<br>
+    ・起立動作は膝折れリスクあるためティルトテーブルまたは起立台の使用検討<br>
+    ・ST連携依頼（嚥下評価・嗄声のフォロー）<br>
+    ・PICS精神面スクリーニング：IES-R（PTSD評価）を1週後に実施予定<br>
+    ・MRC-SSは週1回再評価、48到達で自立歩行訓練開始の目安とする<br>
+    ・ご家族への説明：回復には数か月〜年単位を要する可能性がある
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> SにICU体験のトラウマ的発言を記録。PICSの精神面を見逃さない視点。<br>
+  <span class="arrow">→</span> OでMRC-SSを使い「ICU-AW」を客観的に診断基準と照合。<br>
+  <span class="arrow">→</span> AでPICSの身体面＋精神面の両面を論じる。PTが精神面にも気づいてSTや心理士に橋渡しする役割。<br>
+  <span class="arrow">→</span> Pで「MRC-SS 48到達で次ステップ」と数値基準を設定。長期的視野の目標も記載。
+</div>
+
+<div class="ref-note">※1 Schweickert WD, et al. Lancet 2009 / ※2 Needham DM, et al. Crit Care Med 2012 / ※3 Herridge MS, et al. NEJM 2011</div>
+</div>
+</div>
+
+<!-- 例9: PAH運動処方 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例9：PAH — 特殊な運動処方と危険な兆候</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">PAH</span><span class="ex-tag tag-diff">高リスク</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>55歳女性、特発性肺動脈性肺高血圧症（IPAH）WHO機能分類III。エポプロステノール持続静注中。主治医から運動療法オーダーあり。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「平地歩行は大丈夫だけど坂道や階段で息切れがひどい」「ふらっとすることがある」「運動していいのか不安」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    SpO₂ 安静時94%（room air）, HR 78, BP 102/68, RR 18<br>
+    BNP: 180 pg/mL<br>
+    6MWD: 340m（SpO₂最低値85%、Borg 呼吸困難5、HR max 112）<br>
+    6MWT中にふらつき1回あり（3分時点、SpO₂ 87%）<br>
+    下肢筋力：大腿四頭筋 MMT 4/4、下腿三頭筋 4/4（筋力は比較的保たれている）<br>
+    心エコー（参考）：推定sPAP 65mmHg、右心拡大あり
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    IPAH WHO-FC III。6MWD 340mは中等度の運動耐容能低下。PAH患者への運動療法は右心不全を悪化させるリスクがあるため、通常のCOPDプロトコルは適用不可※1。特にValsalva負荷（息こらえ、重量物挙上）と高強度レジスタンスは絶対禁忌。ふらつきは右心拍出量低下に伴う脳血流減少の可能性があり、失神前兆として注意※2。一方でGrünig E、Ehlken Nらの研究では、適切な監視下での低〜中強度有酸素運動がPAH患者の6MWDとQOLを有意に改善することが示されている※3。Borg 3以下を厳守した慎重な有酸素運動から開始が妥当。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・有酸素運動：平地歩行 Borg ≤ 3（「楽である〜ややきつい」の手前で止める）<br>
+    ・6MWT 60%速度（≒3.4km/h）で開始、10分→15分→20分と漸増<br>
+    ・<strong>絶対禁忌</strong>：Valsalva動作、重量物挙上、等尺性運動の長時間保持<br>
+    ・中止基準：SpO₂<85%持続、ふらつき・前失神症状、胸痛、チアノーゼ<br>
+    ・筋トレは低負荷・高回数のみ（1RM 30%以下 × 15-20回）<br>
+    ・BNP月1回フォロー（上昇傾向=過負荷のサイン）<br>
+    ・主治医と週1回の情報共有（運動負荷の安全性確認）
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> PAHは「運動療法が有効だが危険でもある」という二面性がある。Aでリスクとベネフィットの両方を文献根拠つきで論じる。<br>
+  <span class="arrow">→</span> 「ふらつき」をただの症状としてでなく「右心拍出量低下→脳血流減少→失神前兆」と病態生理的に解釈。<br>
+  <span class="arrow">→</span> Pで「絶対禁忌」を太字で明記。PAH患者のカルテにこれがないと危険。<br>
+  <span class="arrow">→</span> BNPを運動負荷の安全指標として使う視点。過負荷の早期発見。
+</div>
+
+<div class="ref-note">※1 Grünig E, et al. Eur Respir J 2012 / ※2 Ehlken N, et al. JACC 2016 / ※3 Klok FA, et al. Eur Respir Rev 2020</div>
+</div>
+</div>
+
+<!-- 例10: HOT患者 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例10：HOT患者の退院指導 — 在宅での安全管理</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">HOT</span><span class="ex-tag tag-scene">退院指導</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>75歳男性、COPD GOLD IV。HOT導入（安静時1L、労作時3L）で退院予定。退院前最終評価。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「酸素つけて歩くのは慣れた」「風呂が一番しんどい」「外に出るのが億劫になりそう」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    O₂ 3L労作時, SpO₂ 安静94%(1L)→歩行中89%(3L)→歩行後回復92%(3L/2min)<br>
+    6MWD: 310m（O₂ 3L携帯、SpO₂最低87%、Borg 4）<br>
+    入院時6MWD 180m → 退院時310m（+130m、MCID 30m※1を大幅に超過）<br>
+    CAT: 22/40（入院時32→改善、MCID 2点※2を達成）<br>
+    ADL：病棟内歩行自立、入浴はシャワー椅子使用で自立（Borg 5が限界）<br>
+    自主トレ実施率：入院中80%（口すぼめ呼吸・下肢筋トレ）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    COPD GOLD IV、HOT導入退院前。6MWD +130m、CAT -10点と入院中リハの効果は十分に得られた（いずれもMCID達成※1※2）。入浴動作でBorg 5は実用的限界に近く、在宅での入浴時SpO₂低下が最大のリスク場面。「外に出るのが億劫」という発言は、HOT導入後の活動量低下→廃用進行の危険サインであり、外出習慣の維持を退院指導で強調すべき。自主トレ実施率80%は良好で、在宅継続の素地はある。外来リハまたは訪問リハとの継続連携が望ましい。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・退院時自主トレメニュー指導書作成済：口すぼめ呼吸/下肢筋トレ/散歩15分（O₂ 3L）<br>
+    ・入浴指導：シャワー椅子必須、洗体動作は休憩挟みながら、換気確保<br>
+    ・「週3回以上の外出」を目標として設定（買い物・散歩 等）<br>
+    ・パルスオキシメーター貸与（SpO₂ 88%未満が続く場合はO₂増量し受診）<br>
+    ・外来リハ予約済（2週後）、紹介状作成済<br>
+    ・増悪徴候の教育：痰の色・量変化、呼吸困難悪化時は早期受診
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oで入院時→退院時の比較を明示（6MWD 180→310m）。改善量をMCIDと比較して評価。<br>
+  <span class="arrow">→</span> Sの「億劫」を見逃さない。Aで「活動量低下の危険サイン」と解釈。患者の言葉から将来リスクを予測するのがSOAPの醍醐味。<br>
+  <span class="arrow">→</span> Pの「週3回以上の外出」は具体的で測定可能。「活動量を維持してください」より圧倒的に実行されやすい。
+</div>
+
+<div class="ref-note">※1 Puhan MA, et al. Eur Respir J 2011（6MWD MCID） / ※2 Kon SS, et al. Eur Respir J 2014（CAT MCID）</div>
+</div>
+</div>
+
+</div>
+
+<!-- 例16: 誤嚥性肺炎 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例16：誤嚥性肺炎 高齢者 — 再発予防と嚥下リハの連携</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">誤嚥</span><span class="ex-tag tag-diff">再発予防</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>84歳男性、誤嚥性肺炎で入院5日目。抗菌薬投与中、解熱傾向。脳梗塞後遺症で軽度嚥下障害あり。2回目の誤嚥性肺炎。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「食べると咳が出る」「お茶でむせることがある」「前も肺炎になってまたか…」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">BT 37.0℃（解熱傾向）, SpO₂ 94%(1L), HR 80, RR 20<br>CRP 3.2（ピーク12→改善中）<br>RSST（反復唾液嚥下テスト）：30秒で2回（基準3回未満＝異常）<br>MWST（改訂水飲みテスト）：3点（嚥下あるがむせ・湿性嗄声あり）<br>口腔内：舌苔付着多量、義歯不適合<br>端座位：保持可（10分）、体幹保持良好<br>歩行：歩行器＋軽介助30m、SpO₂ 94→90%<br>食事形態：嚥下調整食2-1（ペースト食）、とろみ水</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">誤嚥性肺炎（2回目）入院5日目、炎症改善傾向。RSST 2回、MWST 3点と嚥下機能低下は明確。2回目の誤嚥性肺炎であり、再発予防が最重要課題。口腔ケアの徹底が誤嚥性肺炎発症率を40%低下させるエビデンスあり※1。嚥下機能はSTと連携してVF/VE評価を依頼すべき。離床・歩行能力の維持も誤嚥性肺炎予防に寄与する（座位保持能力と嚥下機能は相関）。義歯不適合は食事摂取量低下→低栄養→筋力低下→嚥下筋力低下の悪循環を招くため歯科連携も必要。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・ST連携依頼：VE（嚥下内視鏡）評価＋嚥下訓練計画策定<br>・口腔ケア強化：Ns・歯科衛生士と連携、毎食後＋就寝前の口腔ケア※1<br>・歯科依頼：義歯調整<br>・離床促進：食事は座位で摂取（30°ギャッジアップではなく端座位推奨）<br>・歩行距離延長：30m→50m目標（SpO₂≥88%でモニタリング）<br>・頸部前屈嚥下（chin tuck）の指導<br>・退院前に家族への誤嚥予防指導（食事姿勢・食形態・口腔ケア）</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> OでRSST・MWSTという簡易嚥下スクリーニングを記録。PTでも実施可能な評価。<br><span class="arrow">→</span> Aで「歩行能力と嚥下機能の相関」に言及。PTが嚥下に関与する根拠。<br><span class="arrow">→</span> 多職種連携（ST/歯科/Ns）が自然にPに織り込まれる。誤嚥性肺炎はPT単独では解決しない。</div>
+<div class="ref-note">※1 Yoneyama T, et al. J Am Geriatr Soc 2002</div>
+</div></div>
+
+<!-- 例17: 気胸術後 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例17：気胸 VATS術後Day3 — 胸腔ドレーン管理下のリハ</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day3</span><span class="ex-tag tag-scene">気胸</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>22歳男性、左自然気胸（PSP）2回目。VATS（胸腔鏡手術）施行。術後Day3、胸腔ドレーンまだ留置中。大学生でバスケ部所属。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「息を深く吸うと痛い」「管がじゃまで動けない」「いつバスケに復帰できますか？」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">SpO₂ 97%(room air), HR 78, RR 16, BT 36.8℃<br>胸腔ドレーン：エアリークなし、排液漿液性少量<br>NRS：安静1、深呼吸時5、咳嗽時6<br>胸郭拡張差：吸気-呼気差 左2cm / 右4cm（左制限あり）<br>SpO₂ 歩行50m：97→95%（安定）<br>咳嗽力：やや弱い（創部痛で抑制）<br>歩行：点滴台持ちながら100m自立、ドレーンボトル管理下</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">PSP 2回目、VATS後Day3。エアリークなく肺膨張は良好。SpO₂安定しており呼吸機能の回復は順調。左胸郭拡張制限は術後疼痛による防御性制限と考える。深呼吸時NRS 5は許容範囲だが、咳嗽力低下は術後合併症（無気肺・肺炎）のリスク因子。ドレーン抜去後から本格的なROM・呼吸訓練を進める。スポーツ復帰については、気胸再発率は禁煙で約1/3に低下するエビデンスがあり※1、VATS後のスポーツ復帰は通常4-6週が目安。接触スポーツ（バスケ）はさらに慎重に。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・深呼吸練習（incentive spirometer）：創部を手で支えながら10回×4セット/日<br>・ハフィング指導（咳嗽痛軽減のため強制呼気で排痰）<br>・ドレーンボトル管理下での歩行距離維持（100m以上/日）<br>・ドレーン抜去後：胸郭拡張ストレッチ（左側屈位での深呼吸）開始<br>・退院時指導予定：禁煙指導※1、段階的スポーツ復帰スケジュール<br>・バスケ復帰目安：術後6週でジョギング→8週で非接触練習→主治医許可後に試合復帰</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> 若年者の気胸は「スポーツ復帰」が最大の関心事。Sで記録し、Pで具体的スケジュールを提示。<br><span class="arrow">→</span> ドレーン留置中のリハは「できること」と「待つこと」を分ける。<br><span class="arrow">→</span> 禁煙指導をPTの役割として明記。再発予防のエビデンスつき。</div>
+<div class="ref-note">※1 Sadikot RT, et al. Eur Respir J 2000（気胸再発と禁煙）</div>
+</div></div>
+
+<!-- 例18: 運動中デサチュレーション判断 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例18：COPD歩行訓練中のデサチュレーション — 中止か継続かの判断</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">負荷判断</span><span class="ex-tag tag-diff">判断困難</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>70歳男性、COPD GOLD III、呼吸リハ外来3週目。6MWT基準60%の歩行速度で訓練中、SpO₂が88%まで低下。O₂は使用していない。「もう少し歩きたい」と本人は意欲的。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「前回より調子いい」「もう少し歩けると思う」「息は苦しいけどBorgは4くらい」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">安静時：SpO₂ 93%, HR 76, RR 18<br>歩行3分経過時：SpO₂ 88%, HR 102, RR 26, Borg呼吸困難4, Borg疲労3<br>歩行5分経過時：SpO₂ 86%, HR 108, RR 28, Borg呼吸困難5, Borg疲労4<br>→ 一旦停止・口すぼめ呼吸 → 2分後SpO₂ 91%に回復<br>歩行再開（速度10%低下）：SpO₂ 89%で安定、Borg 4で継続可<br>前回記録：5分歩行でSpO₂最低89%（今日は86%→やや悪化）<br>総歩行距離：本日280m（前回260m）</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">COPD GOLD III、呼吸リハ外来3週目。歩行中SpO₂ 86%まで低下し一般的な中止基準（88%）を下回った。しかしBorg 5で自覚症状は許容範囲内、口すぼめ呼吸で2分以内に91%まで回復しており、回復力は保たれている。速度を10%下げた再開後はSpO₂ 89%で安定。前回と比較しSpO₂最低値がやや悪化（89→86%）しているが、歩行距離は260→280mに改善。これは「前回より少し速く歩こうとした結果」の可能性あり。中止基準は一律に88%とするのではなく、回復速度・Borg・自覚症状を含めた総合判断が重要※1。本症例ではO₂処方なしでの歩行訓練の限界に近づいており、労作時O₂導入（1-2L）の検討が妥当。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・次回から歩行速度を前回レベル（6MWT 55%）に下方修正<br>・主治医へ提案：労作時O₂ 1-2L処方の検討（歩行中SpO₂<88%が再現性あり）<br>・インターバル歩行パターンへの切替（3分歩行→1分休憩→3分歩行）<br>・口すぼめ呼吸の「歩行中実施」を重点練習<br>・デサチュレーションパターン記録の継続（何分後に何%まで低下するか）<br>・4週後に6MWT再評価（O₂あり/なし両条件で比較）</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> 「88%を切ったから即中止」ではない。Aで回復速度・Borg・再開後の安定性を総合的に判断。<br><span class="arrow">→</span> 前回との比較をOに並記。トレンド（経過の傾向）を記録する。<br><span class="arrow">→</span> PTが労作時O₂処方を主治医に「提案」する。処方権はないが提案根拠を持つ。</div>
+<div class="ref-note">※1 ATS Guidelines 6MWT 2002 / Puhan MA, et al. Eur Respir J 2011</div>
+</div></div>
+
+<!-- 例19: サルコペニア+COPD -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例19：COPD＋サルコペニア — 栄養・運動の統合アプローチ</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">栄養連携</span><span class="ex-tag tag-diff">サルコペニア</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>76歳男性、COPD GOLD III＋サルコペニア。BMI 17.2、握力低下、歩行速度低下。栄養指導後2週間。リハ効果が出にくい。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「頑張ってるけどなかなか力がつかない」「栄養剤は飲んでるけど食欲がない」「体重が増えない」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">BMI 17.2（身長168cm/体重48.5kg）、体重変化：4週前49.5→48.5kg（-1kg）<br>Alb 3.0 g/dL, prealbumin 15 mg/dL（やや低値）<br>握力：右18kg / 左16kg（サルコペニア基準<28kgに該当）※1<br>SARC-F: 6/10（サルコペニアスクリーニング陽性）<br>歩行速度：0.7m/s（基準<0.8m/sに該当）<br>大腿四頭筋筋力：体重比 30%（基準>40%）<br>6MWD：240m（前回235m、ほぼ変化なし）<br>ONS（経口栄養補助）摂取量：処方200kcal × 2本/日のうち平均1.2本しか飲めていない</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">COPD GOLD III＋サルコペニア（EWGSOP2基準に該当※1：握力低下＋歩行速度低下＋BMI<20）。2週間のリハで6MWD 235→240mとほぼ変化なし。運動効果が出にくい原因は栄養摂取不足が最大の要因と考える。ONSの処方400kcal/日に対し実摂取240kcal/日と6割にとどまっており、同化（筋合成）に必要なエネルギーが不足している。「運動だけ頑張っても栄養が足りなければ筋肉は増えない」状態。COPD患者のサルコペニアは死亡率を2倍に増加させるエビデンスがあり※2、栄養介入の強化が急務。運動強度の問題ではなく栄養摂取の問題として再アプローチが必要。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・NST（栄養サポートチーム）カンファ依頼：ONS摂取量不足の対策協議<br>・ONS変更提案：現在の味が合わない可能性→フレーバー変更or別製品に※<br>・分岐鎖アミノ酸（BCAA）補給の検討（運動30分前に摂取で筋合成促進）<br>・運動内容は現行維持（過負荷は異化を促進するため負荷増は栄養改善後に）<br>・体重・握力を週1回モニタリング → 2週後に再評価<br>・管理栄養士との直接面談を調整（食欲低下の原因探索：味覚障害？消化器症状？）<br>・SARC-F 6→4を中期目標（3か月）</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> 「リハ効果が出ない」ときに「運動が足りない」と考えるのではなく「栄養が足りない」可能性をAで論じる。<br><span class="arrow">→</span> ONSの「処方量 vs 実摂取量」の差をOに記録。処方されていても飲めていなければ意味がない。<br><span class="arrow">→</span> 「運動負荷を増やさない」という判断をPに明記。栄養不足下での過負荷は逆効果。</div>
+<div class="ref-note">※1 Cruz-Jentoft AJ, et al. Age Ageing 2019（EWGSOP2） / ※2 Swallow EB, et al. Thorax 2007</div>
+</div></div>
+
+<!-- 例20: IMT導入 -->
+<div class="ex-card" data-dept="resp">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--resp-l);">
+  <h3>例20：COPD患者へのIMT（吸気筋トレーニング）導入</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">IMT</span><span class="ex-tag tag-new">新規導入</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box"><strong>場面：</strong>68歳男性、COPD GOLD II。外来リハ2か月経過、6MWD改善あるがMIP（最大吸気圧）が低く息切れが続く。IMT追加を検討。</div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+<div class="soap-content s-border">「歩ける距離は伸びたけど、坂道でまだ息が上がる」「朝起きた時に呼吸が浅い気がする」</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+<div class="soap-content o-border">MIP（最大吸気圧）：48cmH₂O（予測値の55%、低下あり）<br>MEP（最大呼気圧）：82cmH₂O（正常範囲）<br>6MWD：350m（初回280m→+70m、MCID 30m超で改善あり）<br>mMRC：2（平地歩行で同年齢より歩くのが遅い、または休む）<br>CAT：18/40<br>FEV₁：1.6L（予測値52%、GOLD II）<br>呼吸パターン：吸気時に頸部補助筋の過活動あり</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+<div class="soap-content a-border">COPD GOLD II、外来リハ2か月で6MWD +70mと良好な改善。しかしMIP 48cmH₂O（予測値55%）と吸気筋力が低下しており、これが「坂道の息切れ」の一因と考える。MEPは正常であるため呼気筋ではなく吸気筋が問題。頸部補助筋の過活動は横隔膜機能低下の代償パターン。Charususin Nらの研究ではIMTを呼吸リハに追加することで6MWD・QOL・呼吸困難がさらに改善することが示されている※1。MIP<60cmH₂OはIMT適応の目安であり、本症例は適応あり。IMT導入にあたり適切な負荷設定が重要（MIPの30-50%から開始）。</div></div>
+<div class="soap-row"><div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+<div class="soap-content p-border">・IMT導入：閾値負荷式デバイス使用、初期負荷MIPの30%（≒15cmH₂O）<br>・15回×2セット/日、自宅実施（朝・夜）<br>・2週ごとにMIP再測定→負荷漸増（MIPの50%まで段階的に）<br>・既存の歩行訓練＋筋トレは継続（IMTは追加メニューとして）<br>・IMTデバイスの使い方を実演指導（患者がメモ取りたいとのことで図解資料渡済）<br>・4週後にmMRC・CAT再評価（IMT追加効果の判定）</div></div>
+<div class="think-box"><strong>思考プロセス解説：</strong><br><span class="arrow">→</span> MIPとMEPを分けて評価。「呼吸筋が弱い」ではなく「吸気筋だけが弱い」と特定。<br><span class="arrow">→</span> 6MWDは改善しているのに息切れが残る原因をAで分析。改善と未改善を分離する思考。<br><span class="arrow">→</span> IMT負荷設定を「MIPの30%」と具体的数値で記載。次の担当者が同じ設定で実施できる。</div>
+<div class="ref-note">※1 Charususin N, et al. Lancet Respir Med 2018</div>
+</div></div>
+
+<!-- ========== 腫瘍内科 SOAP例 ========== -->
+<div class="ex-section" data-dept="onco">
+<div class="ex-section-title dept-onco">🩺 腫瘍内科 SOAP例（10例）</div>
+
+<!-- 例11: 化学療法中 CRF -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例11：化学療法Day8 — CRF（がん関連疲労）への対応</h3>
+  <div class="ex-tags"><span class="ex-tag tag-day">Day8</span><span class="ex-tag tag-scene">CRF</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>62歳女性、大腸がんStage III、FOLFOX療法4コース目Day8。強い疲労感を訴え、「リハ中止したい」と。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「今日はとにかくだるい、体が鉛みたい」「食欲もない」「リハやる気力がない」「手足のしびれも前より強い気がする」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 9.2 g/dL（前回10.8→低下）、Plt 12万、ANC 1800<br>
+    ② 骨転移：なし<br>
+    ③ FOLFOX Day8（Nadir期に近い）<br>
+    BT 36.4℃, BP 108/66, HR 90, SpO₂ 97%<br>
+    ECOG PS: 2（日中の50%以上をベッド外で過ごすが、身の回りのことが一部困難）<br>
+    BFI（Brief Fatigue Inventory）: 7/10（重度疲労）<br>
+    CIPN評価：TNSr 8/28（前回6→悪化傾向、足底のしびれ＋手指の感覚鈍麻）<br>
+    端座位：保持可、ふらつきなし<br>
+    歩行：病棟50m実施（Borg疲労6、ただしSpO₂・HR安定）<br>
+    TUG: 12秒（前回9秒→延長）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    FOLFOX 4コースDay8、Nadir期に近く、Hb 9.2への低下がCRFの一因と考える。BFI 7/10は重度疲労だが、ANC 1800・Plt 12万で感染・出血リスクは許容範囲内であり、リハ実施自体は安全※1。「リハやる気力がない」は合理的な反応であり、無理な動機づけは逆効果。CRF重度期には「安静よりも軽い活動の方が疲労を軽減する」エビデンスがあり※2、目標を下方修正してでも何らかの活動を維持することが重要。TNSr 8→前回6から悪化傾向であり、オキサリプラチンによるCIPN進行の可能性。次回投与前に薬剤師・主治医へ情報提供し、減量・変更の検討材料とすべき※3。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・本日は「最低限プラン」に切替：端座位での上肢体操＋病棟20m歩行のみ<br>
+    ・Borg疲労 ≤ 4を目安（「ややきつい」以下に抑える）<br>
+    ・CRF教育：「疲れているときほど少しだけ動く方が回復が早い」と説明済<br>
+    ・CIPN悪化を薬剤師・主治医へ情報提供（TNSr推移：6→8）<br>
+    ・Nadir期過ぎ（Day14頃）に負荷を通常レベルに戻す予定<br>
+    ・貧血進行時はHb再検後に輸血の要否を主治医と検討
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oの冒頭に「確認の3点セット」を書く。腫瘍内科SOAPの定型パターン。<br>
+  <span class="arrow">→</span> Aで「リハをやめる」のではなく「下方修正して継続」を選択する根拠を明記。<br>
+  <span class="arrow">→</span> CIPNの悪化傾向を「PTから薬剤師・医師への情報提供」につなげる。CIPNの早期発見はPTの重要な役割。<br>
+  <span class="arrow">→</span> Pの「Nadir期過ぎに通常レベルへ」はDay管理の実践。化学療法サイクルを理解した計画。
+</div>
+
+<div class="ref-note">※1 Campbell KL, et al. MSSE 2019 / ※2 Cochrane Review 2019（がんリハQOL） / ※3 Staff NP, et al. Mayo Clin Proc 2020</div>
+</div>
+</div>
+
+<!-- 例12: 骨転移 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例12：骨転移患者 — SINS/Mirelsによる荷重判断</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">骨転移</span><span class="ex-tag tag-diff">荷重判断</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>58歳男性、肺がんStage IV。Th12, L3, 右大腿骨に骨転移あり。「歩行訓練は可能か」と主治医から相談。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「腰が重い感じがする」「右太ももは動くと痛い」「夜も痛くて眠れないことがある」「歩けなくなるのが怖い」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 11.0, Plt 18万, ANC 2200（血液データ良好）<br>
+    ② 骨転移あり → SINS / Mirels評価実施<br>
+    ③ ペンブロリズマブ投与中（Day14）<br>
+    <br>
+    SINS（Th12）：8点（potentially unstable）※1<br>
+    　部位:3 + 機械的疼痛:1 + 骨病変:2 + alignment:0 + 椎体圧壊:1 + 後方要素:1<br>
+    Mirels（右大腿骨）：8点（病的骨折リスク中等度）※2<br>
+    　部位:2 + 疼痛:2 + 病変タイプ:2 + 長径/骨幅:2<br>
+    NRS：安静時3、荷重時6（右下肢）、夜間4<br>
+    ECOG PS: 1<br>
+    歩行：杖使用にて20m可、右立脚期に疼痛性跛行<br>
+    放射線治療：Th12に対し30Gy/10fr 照射中（残4回）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    肺がんStage IV、Th12/L3/右大腿骨骨転移。SINS 8（Th12）は「potentially unstable」域であり脊椎外科コンサルト適応※1。Mirels 8（右大腿骨）は病的骨折リスク中等度だが、荷重時NRS 6と機械的疼痛が顕著で、現行の歩行負荷が骨折リスクを高める可能性がある※2。歩行訓練は可能だが、右下肢への衝撃荷重（ジャンプ・速歩・階段降り）は回避し、免荷歩行器の使用を検討。Th12放射線治療中は椎体の一時的脆弱化に注意。夜間痛は骨転移の特徴的症状であり鎮痛コントロールの最適化が必要。PS 1と全身状態は保たれており、安全な範囲での活動維持はQOL・ADL保持に重要。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・歩行は杖→免荷歩行器への変更を検討（右下肢衝撃軽減）<br>
+    ・禁止動作：ジャンプ、速歩、重量物挙上、体幹回旋負荷<br>
+    ・有酸素運動：臥位でのエルゴメーター or 座位での上肢エルゴ（下肢への荷重回避）<br>
+    ・Th12 SINS 8 → 脊椎外科コンサルト依頼を主治医に提案<br>
+    ・疼痛管理：鎮痛薬のタイミング最適化（リハ30分前に服用）を提案<br>
+    ・Mirels再評価：放射線治療終了後に画像的改善確認→荷重段階の再検討<br>
+    ・ADL指導：靴下着脱・入浴動作でのTh12への負荷軽減法
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> OでSINS・Mirelsのスコアを内訳つきで記載。数字だけでなく構成要素を書くと、次回再評価時に比較できる。<br>
+  <span class="arrow">→</span> Aの核心は「歩行は可能だが条件付き」という nuanced な判断。白黒でなくグレーゾーンを論理的に整理。<br>
+  <span class="arrow">→</span> 放射線治療中の「一時的脆弱化」は見落としやすいポイント。時期に応じたリスク認識。<br>
+  <span class="arrow">→</span> PTから脊椎外科コンサルトを主治医に提案。多職種連携の起点としてのPTの役割。
+</div>
+
+<div class="ref-note">※1 Fisher CG, et al. Spine 2010（SINS） / ※2 Mirels H. Clin Orthop 1989</div>
+</div>
+</div>
+
+<!-- 例13: FN後リハ再開 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例13：発熱性好中球減少症（FN）後 — リハ再開のタイミング</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">FN</span><span class="ex-tag tag-new">再開判断</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>48歳女性、急性骨髄性白血病。地固め療法後にFN発症（ANC 200, BT 39.2℃）。抗菌薬投与5日後にANC 800に回復、解熱。リハ再開のタイミングを判断。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「熱が下がってやっと楽になった」「5日間ほぼ寝たきりだったから体がなまっている」「早く動きたい」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 8.5, Plt 3.2万, <strong>ANC 800</strong>（FN時200→回復傾向）<br>
+    ② 骨転移：なし<br>
+    ③ 地固め療法Day18（FN Day5→回復期）<br>
+    BT 36.8℃（解熱48h経過）, BP 100/62, HR 94, SpO₂ 97%<br>
+    5日間ベッド上安静後<br>
+    端座位：起立性低血圧あり（BP 100→82, HR 94→112）、2分後に回復<br>
+    立位：ふらつき軽度あり、30秒保持可<br>
+    歩行：ベッドサイド5mのみ実施（安全確認目的）、Borg疲労5
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    FN後回復期。ANC 800に改善し解熱48h経過→リハ再開は可能と判断※1。ただしPlt 3.2万のため転倒は出血リスクとなり、監視下での安全な活動に限定が必要。Hb 8.5で起立性低血圧が出現しており、循環動態が不安定。5日間のベッド上安静によるdeconditioning（廃用）が短期間で進行しており、起立性低血圧＋下肢筋力低下が歩行再開の障壁。「早く動きたい」という意欲は高いが、過度な活動は再度の感染・出血リスクを高める。段階的離床（端座位→立位→短距離歩行）を1-2日かけて進める方針が安全。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・本日：端座位耐久性確認（5分以上目標）＋起立練習（起立性低血圧への馴化）<br>
+    ・明日：病室内歩行10-20m（監視下、転倒厳重注意：Plt 3.2万）<br>
+    ・ANC 1000超確認後に病棟歩行へ拡大<br>
+    ・Plt 5万未満の間はレジスタンス運動・Valsalva負荷は禁止<br>
+    ・マスク着用で実施（ANC<1500のため感染予防）<br>
+    ・血液データ毎日確認→ANC・Plt推移で負荷段階を調整<br>
+    ・意欲は高いので過活動にならないよう「段階的に」を繰り返し説明
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> FN後の再開基準は「解熱＋ANC回復傾向」。数値と時間経過を明記。<br>
+  <span class="arrow">→</span> Plt 3.2万→転倒＝出血リスクという連結を論じる。血液データを運動リスクに直結させる思考。<br>
+  <span class="arrow">→</span> 患者の意欲が高い場合、それをPの「過活動注意」に反映。意欲をADVANTAGEかつRISKとして二面的に捉える。<br>
+  <span class="arrow">→</span> Pの日単位の段階（本日→明日→ANC 1000後）がDay管理の実践。
+</div>
+
+<div class="ref-note">※1 ASCO Guideline J Clin Oncol 2022</div>
+</div>
+</div>
+
+<!-- 例14: 緩和期 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例14：緩和期 PS3 — 「何のためのリハか」を問い直す</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">緩和期</span><span class="ex-tag tag-diff">目標再設定</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>70歳女性、膵がんStage IV、BSC（Best Supportive Care）移行後。PS 3。家族が「少しでも歩けるようになってほしい」とリハ継続希望。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    患者：「ベッドで横になっていたい…でも家族の前では頑張りたい」「トイレだけは自分で行きたい」<br>
+    家族（娘）：「母が歩けなくなったら施設に行くしかないんでしょうか」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    ECOG PS: 3, PPS（Palliative Performance Scale）: 40%<br>
+    Hb 8.0, Alb 2.2（悪液質進行）<br>
+    体重：42kg（3か月前48kg、-12.5%の体重減少）<br>
+    端座位：保持可（5分、疲労出現）<br>
+    立位：手すり＋介助にて可（10秒程度）<br>
+    歩行：歩行器＋全介助にて5m（Borg疲労7、実用的ではない）<br>
+    ポータブルトイレ移乗：軽介助にて可（これが現実的な最大能力）<br>
+    NRS：腰背部痛 安静時4（オピオイド使用中）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    膵がんStage IV、BSC移行後。PPS 40%、悪液質進行（体重-12.5%/3M）※1。現時点で歩行は全介助5mが限界であり、「歩行自立の再獲得」は現実的目標ではない。しかし「トイレだけは自分で」という患者本人のニーズと、ポータブルトイレ移乗が軽介助で可能であることを踏まえると、<strong>「トイレ動作の介助量維持」が現実的かつ患者の尊厳に直結する目標</strong>。家族の「歩けなくなったら施設」という不安に対しては、歩行能力とは切り離して在宅支援の選択肢を情報提供すべき（MSW連携）。緩和期リハの目標は「機能改善」ではなく「残存機能の活用によるQOL維持」であり※2、エネルギー消耗を最小限にしながらADL参加を支える視点が重要。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・目標再設定：歩行自立→「ポータブルトイレ移乗の介助量維持」に変更<br>
+    ・リハ内容：端座位保持＋座位での上肢体操＋移乗動作練習（1日1回、Borg≤4）<br>
+    ・ベッド環境調整：ポータブルトイレの配置最適化（ベッドから最短距離）<br>
+    ・エネルギー温存技法の指導（動作のペーシング・優先順位づけ）<br>
+    ・MSW連携：在宅支援の選択肢（訪問リハ・介護保険サービス）を家族へ情報提供<br>
+    ・家族への説明：「歩くこと」だけがゴールではない。トイレの自立が保たれていることは十分な成果であると伝達済<br>
+    ・PPS 30%以下に低下した時点で介入内容を再検討（ポジショニング・緩和ケア中心へ）
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Sで患者と家族の発言を分けて記録。「家族の期待」と「患者の本当の希望」が異なる場合がある。<br>
+  <span class="arrow">→</span> Aの最大のポイントは「目標の再設定」を論理的に行うこと。「歩行自立は非現実的」→「だから何もしない」ではなく「移乗維持」に落とし込む。<br>
+  <span class="arrow">→</span> 家族の不安（施設送り）にも対応する。PTのカルテにMSW連携まで書くのが包括的ケア。<br>
+  <span class="arrow">→</span> PPS 30%で次の判断基準を設定。緩和期でも「次のフェーズ」を予測しておく。
+</div>
+
+<div class="ref-note">※1 Fearon K, et al. Lancet Oncol 2011（がん悪液質定義） / ※2 Schmitz KH, et al. CA Cancer J Clin 2019</div>
+</div>
+</div>
+
+<!-- 例15: irAE -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例15：irAE（免疫関連有害事象）Grade 2 — リハ継続の判断</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">irAE</span><span class="ex-tag tag-diff">継続判断</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>65歳男性、非小細胞肺がんStage IV、ニボルマブ投与中。irAE（免疫関連関節炎 Grade 2）が出現。両膝・両手関節の腫脹と疼痛。リハを続けてよいか。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「1週間前から膝と手首が腫れて痛い」「朝のこわばりが1時間以上続く」「歩くのがつらい」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 12.0, Plt 22万, ANC 3500, CRP 4.2（前回0.8→上昇）<br>
+    ② 骨転移：なし<br>
+    ③ ニボルマブ投与中（前回投与2週前）<br>
+    irAE評価：関節炎 Grade 2（中等度疼痛、ADL制限あり）※1<br>
+    両膝関節ROM：屈曲110°/110°（疼痛にて制限、前回130°）<br>
+    両手関節：腫脹あり、握力 右22kg→16kg / 左20kg→14kg（低下）<br>
+    NRS：膝 歩行時5、安静時2 / 手首 把持動作時4<br>
+    朝のこわばり：約1.5時間<br>
+    6MWD: 380m（前回420m→低下）<br>
+    ECOG PS: 1（前回0）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    ニボルマブによるirAE（免疫関連関節炎）Grade 2と判断。CRP上昇、両膝ROM低下、握力低下、6MWD低下とASCOガイドライン※1のGrade 2基準（中等度疼痛＋ADL制限）に一致。Grade 2ではICI継続下でNSAIDs＋低用量ステロイド開始が標準治療。リハビリテーションは中止ではなく、関節炎の活動性を考慮した負荷修正で継続可能※2。朝のこわばり1.5時間は炎症活動性が高い時間帯であり、リハ実施は午後（こわばり消退後）が望ましい。関節へのover-stressingは炎症を悪化させるため、ROM練習は疼痛閾値以下で実施。握力低下は巧緻動作のADL（書字・箸使用・ボタン）に影響しうる。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・リハ実施時間を午後（14時以降）に変更（朝のこわばり回避）<br>
+    ・膝ROM練習：自動ROM、疼痛閾値以下（NRS 3以下の範囲）<br>
+    ・歩行：距離を短縮（50m × 数回のインターバル方式）<br>
+    ・手関節：温浴後の愛護的ROM＋把持力維持訓練（シリコンボール）<br>
+    ・レジスタンス運動：荷重関節への負荷を50%減（CKCからOKCへ変更）<br>
+    ・CRP・関節症状を週1評価 → Grade 3移行時はリハ一時中止<br>
+    ・主治医へirAE Grade 2の詳細を情報提供（ステロイド導入の判断材料として）<br>
+    ・Grade 1に改善した時点で通常負荷に段階的復帰
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> irAEのGrade判定をOで明確に行い、Aでガイドラインと照合。Grade 2の「中等度＋ADL制限」を具体的に裏付ける。<br>
+  <span class="arrow">→</span> 「朝のこわばり」→「リハ実施時間の変更」は関節リウマチ管理の応用。irAEでも同じ思考が使える。<br>
+  <span class="arrow">→</span> PでGrade 3への移行を想定し、事前に中止基準を設定。「悪化したらどうする」を先に書く。<br>
+  <span class="arrow">→</span> PTがirAE情報を主治医に伝えることで、ステロイド開始の判断に貢献。多職種連携の具体的場面。
+</div>
+
+<div class="ref-note">※1 Brahmer JR, et al. J Clin Oncol 2018（ASCO irAE GL） / ※2 Campbell KL, et al. MSSE 2019</div>
+</div>
+</div>
+
+<!-- 例21: HSCT後GVHD -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例21：HSCT（造血幹細胞移植）後 — GVHD合併下のリハ管理</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">HSCT</span><span class="ex-tag tag-diff">GVHD管理</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>48歳男性、急性骨髄性白血病（AML）に対し同種HSCT後Day28。慢性GVHD（皮膚・肝）が出現しプレドニゾロン1mg/kg投与中。著明な筋力低下と全身倦怠感。クリーンルームから一般病棟へ移動直後。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「体が全然動かない」「立ち上がるだけで息が切れる」「皮膚がピリピリして服が擦れるだけで痛い」「クリーンルームにいた1ヶ月で筋肉が落ちた気がする」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 8.2, Plt 4.5万, ANC 1800, Alb 2.6<br>
+    ② 骨転移：なし（原疾患は血液腫瘍）<br>
+    ③ PSL 60mg/日、タクロリムス併用中<br>
+    GVHD：皮膚Stage 2（体表面積25-50%の発疹）、肝Stage 1（Bil 2.5）※1<br>
+    MMT：上肢3+/3+、下肢3/3（著明な廃用性筋萎縮）<br>
+    握力：右18kg / 左16kg（年齢別基準の45%）<br>
+    CS-30：5回（年齢基準の25%）<br>
+    6MWD：実施困難（20mで息切れBorg 7、SpO2 94→89%）<br>
+    BBS：38/56（転倒リスク域）<br>
+    ECOG PS：3 → リハ必要度高い<br>
+    皮膚GVHD部位：体幹・四肢の発疹と硬化 → 装具・セラバンド接触注意<br>
+    体重：62kg→55kg（移植前比-11%、1ヶ月間）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    HSCT後の重度廃用症候群＋慢性GVHD合併例。Hb 8.2の貧血、1ヶ月間のクリーンルーム安静、高用量ステロイドによるミオパチーが筋力低下の三大要因。体重11%減は1ヶ月の急速な変化でありサルコペニア進行を示唆※2。Plt 4.5万はレジスタンス運動に注意が必要な水準（5万未満では高強度は禁忌）。皮膚GVHDにより接触刺激のあるリハ機器（セラバンド・装具）は皮膚症状を悪化させうる。ANC 1800は感染リスクはやや低下しているが、免疫抑制剤投与下のためリハ室での感染対策は継続必要。6MWD実施困難はPS3に一致し、まずはベッドサイドADL自立を目標とする段階。ステロイドミオパチーは特に近位筋（大腿四頭筋・殿筋群）に好発するため、立ち上がり・階段動作への影響が大きい。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・Phase 1（〜PS2改善）：ベッドサイド中心、端座位耐久性→立位保持→歩行器歩行<br>
+    ・レジスタンス運動：Plt 4.5万のため自重OKC中心（レッグレイズ・ヒップリフト）、セラバンド不使用（皮膚GVHD）<br>
+    ・有酸素：歩行50m×3回のインターバル方式（SpO2 90%以上維持）、Hb 8.2考慮し心拍上限110bpm<br>
+    ・皮膚保護：リハ前に保湿剤塗布、直接接触する器具はガーゼで被覆<br>
+    ・Plt・Hbは週2回確認、Plt 2万未満でリハ内容変更、Hb 7未満で輸血後に実施<br>
+    ・栄養科と連携：高タンパク食＋補助食品（体重減対策）<br>
+    ・PSL減量に合わせて負荷漸増（近位筋中心のプログラムへ移行）<br>
+    ・退院前目標：病棟内ADL自立（PS1-2）、6MWD 200m以上
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> HSCT後の機能低下は「貧血」「廃用」「ステロイドミオパチー」の3要因を分解してOに記載。Aで各要因がどう影響するか統合する。<br>
+  <span class="arrow">→</span> Plt 4.5万は「5万」のカットオフを意識。O段階で数値を書き、Aで「高強度禁忌」と臨床判断に変換。<br>
+  <span class="arrow">→</span> 皮膚GVHDは運動の「直接的な阻害因子」。通常なら使うセラバンドが使えない→代替手段をPに明記。<br>
+  <span class="arrow">→</span> 6MWD「実施困難」も立派なデータ。「できなかった」ことから現在の機能レベルと目標設定の根拠になる。
+</div>
+
+<div class="ref-note">※1 Filipovich AH, et al. BBMT 2005（GVHD分類） / ※2 Morishita S, et al. Support Care Cancer 2019</div>
+</div>
+</div>
+
+<!-- 例22: リンパ浮腫CDT -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例22：乳がん術後リンパ浮腫 — CDT導入と自己管理指導</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">リンパ浮腫</span><span class="ex-tag tag-diff">CDT</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>56歳女性、左乳がん術後（腋窩リンパ節郭清）3年。左上肢リンパ浮腫ISL Stage II（圧痕性あり、挙上で軽減せず）。外来リハで初回CDT評価。ホルモン療法中（タモキシフェン）。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「左腕が重くてだるい」「服の袖が入らなくなった」「夕方になると指輪が抜けない」「蜂窩織炎で2回入院した」「自分でリンパマッサージしているけど良くならない」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 13.5, Plt 25万, ANC 4200 — 血液データ正常<br>
+    ② 骨転移：直近CT（3ヶ月前）で再発・転移なし<br>
+    ③ タモキシフェン内服中（副作用：関節痛・体重増加傾向）<br>
+    ISL分類：Stage II（圧痕あり＋挙上で不変）※1<br>
+    周径（健側比）：上腕 +3.2cm、前腕 +2.8cm、手背 +1.5cm<br>
+    体積差（水置換法）：左>右 340mL（15%超過）<br>
+    皮膚：圧痕残存10秒以上、Stemmer sign陽性（足趾ではなく手指で確認）<br>
+    ROM：左肩屈曲150°（右170°）、外転140°（右170°）※術後瘢痕拘縮<br>
+    蜂窩織炎既往：2回（直近6ヶ月前）→感染リスク高い<br>
+    現在のセルフケア：YouTube参考の「リンパマッサージ」→排液経路が不適切<br>
+    BMI：26.8（タモキシフェン開始後+4kg）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    左上肢続発性リンパ浮腫ISL Stage II、CDT（複合的理学療法）の適応。体積差15%超過・Stemmer sign陽性・反復性蜂窩織炎の既往から、集中排液期（Phase I）が必要な段階※1。現在のセルフマッサージは排液経路が解剖学的に不適切（患側直接マッサージではなく、健側リンパ節への誘導が必要）であり、かえって浮腫を悪化させている可能性。BMI 26.8は浮腫増悪因子であり※2、タモキシフェンによる体重増加傾向と合わせて栄養・運動指導が重要。蜂窩織炎2回は再発の強いリスク因子であり、スキンケア教育を最優先事項とする。肩ROM制限は術後瘢痕性拘縮であり、浮腫による二次的制限と区別してアプローチ。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・CDT Phase I（集中排液期）：週3回×4週間<br>
+    ・MLD（用手的リンパドレナージ）：健側鎖骨上→腋窩代償経路→患側の順序で実施<br>
+    ・圧迫療法：MLD後に多層包帯法（短伸縮性包帯）→Phase I終了後に弾性着衣（Class 2, 30-40mmHg）へ移行<br>
+    ・運動療法：圧迫下での反復把握運動・肩挙上運動（筋ポンプ作用促進）<br>
+    ・スキンケア教育：保湿剤使用、爪切り注意、虫刺され予防、採血・血圧測定は右腕で<br>
+    ・セルフMLD指導：正しい排液経路（健側→患側の順序）を実技で教育<br>
+    ・体重管理：栄養科連携、BMI 25未満を目標<br>
+    ・周径・体積を毎回測定し記録、4週後にPhase II（維持期）移行を判断<br>
+    ・蜂窩織炎の前駆症状（発赤・熱感・疼痛）出現時の即時受診を指導
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Sの「自分でリンパマッサージしている」→Oで「排液経路が不適切」と評価→Aで「かえって悪化の可能性」と判断→Pで「正しいセルフMLD指導」。S→O→A→Pが論理的に連鎖する好例。<br>
+  <span class="arrow">→</span> ISL分類・Stemmer signなど標準的評価指標をOに入れることで、CDT適応の根拠がAで明確になる。<br>
+  <span class="arrow">→</span> 蜂窩織炎の既往はリンパ浮腫管理で最も重要な合併症。Oに「2回」と書き、Aで「再発リスク因子」と解釈し、Pで「スキンケア教育を最優先」とする。<br>
+  <span class="arrow">→</span> 薬剤（タモキシフェン）の副作用が浮腫管理に間接的に影響する視点。Oに体重変化を記録し、Aで関連付ける。
+</div>
+
+<div class="ref-note">※1 ISL Executive Committee. Lymphology 2020（ISL Stage分類） / ※2 Schmitz KH, et al. JAMA 2010</div>
+</div>
+</div>
+
+<!-- 例23: CIPN重症 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例23：CIPN重症（化学療法誘発性末梢神経障害） — 転倒リスク管理</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">CIPN</span><span class="ex-tag tag-diff">転倒予防</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>63歳女性、卵巣がんStage IIIC、パクリタキセル＋カルボプラチン6コース完遂後2ヶ月。CIPN Grade 3が残存し、歩行不安定で転倒歴あり。外来リハ初回評価。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「足の裏の感覚がない、砂利の上を歩いているみたい」「スリッパが脱げていても気づかない」「先月お風呂場で転んだ」「手先もしびれてボタンが留められない」「治療は終わったのに良くならない」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 11.8, Plt 18万, ANC 3800 — 化学療法終了後、回復期<br>
+    ② 骨転移：なし（直近CT 1ヶ月前）<br>
+    ③ 化学療法終了（パクリタキセル累積投与量 1050mg/m²）<br>
+    CIPN Grade分類：CTCAE Grade 3（高度の感覚障害、ADL制限）※1<br>
+    感覚検査：<br>
+    　触覚（SWモノフィラメント）：両足底 5.07以上（防御感覚消失）<br>
+    　振動覚（音叉128Hz）：両内果 3秒以下（正常10秒以上）<br>
+    　位置覚：両母趾 消失<br>
+    　手指：触覚低下（4.56）、巧緻動作障害（ボタン・箸困難）<br>
+    Romberg test：陽性（閉眼で著明な動揺→即介助）<br>
+    TUG：18.2秒（転倒ハイリスク：>13.5秒）※2<br>
+    BBS：36/56（転倒リスク域）<br>
+    FRT：15cm（正常>25cm）<br>
+    転倒歴：過去3ヶ月で2回（浴室1回、段差1回）<br>
+    10m歩行：12.5秒（wide-based gait, foot slap＋）<br>
+    FACT/GOG-Ntx：38/44（CIPN特異的QOL指標、重症域）
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    パクリタキセル誘発性CIPN Grade 3。累積投与量1050mg/m²は高用量であり、回復に数ヶ月〜年単位を要する可能性※1。足底の防御感覚消失＋位置覚消失＋Romberg陽性から、感覚性運動失調を主因とする歩行障害。TUG 18.2秒・BBS 36は転倒ハイリスクを示し、実際に3ヶ月で2回転倒している。CIPN Grade 3は不可逆的要素を含むため、「感覚を回復させる」よりも「残存感覚を代償して安全な動作を獲得する」アプローチが現実的※2。手指のCIPNは巧緻動作障害（ボタン・箸・書字）を通じてQOLに直結。wide-based gaitとfoot slapは固有感覚障害の代償パターンであり、視覚代償への過度な依存は暗所・夜間の転倒リスクとなる。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・バランス練習：視覚・前庭覚の代償強化（不安定面での開眼→閉眼段階的練習）<br>
+    ・歩行訓練：heel-toe歩行ドリル、障害物跨ぎ（視覚的手がかりの活用）<br>
+    ・足底感覚代償：テクスチャーマット上での荷重知覚練習<br>
+    ・手指巧緻動作：ペグボード・ボタン練習（作業療法と共同）<br>
+    ・環境調整指導：浴室滑り止めマット、夜間足元照明、スリッパ→かかと付き室内履き<br>
+    ・運動処方：足関節背屈筋強化（foot slap軽減目的）、片脚立位練習<br>
+    ・転倒リスク教育：CIPN特有の危険場面（暗所・入浴・段差）の具体的回避策<br>
+    ・FACT/GOG-Ntxを3ヶ月毎に再評価、経時変化を追跡<br>
+    ・主治医へ：デュロキセチン（CIPN Grade 3への推奨薬物療法※1）の検討を情報提供
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Oで感覚検査を系統的に記載（触覚・振動覚・位置覚）。「何が失われているか」を具体的に書くことで、Aの「感覚性運動失調」の根拠が明確になる。<br>
+  <span class="arrow">→</span> TUG・BBS・FRTの3指標でバランス障害を多面的に評価。単一指標より説得力が増す。<br>
+  <span class="arrow">→</span> Aで「回復させる」ではなく「代償して安全を獲得する」と方針を明示。CIPNでは「治す」より「付き合う」視点が重要であり、それがPのプログラム根拠になる。<br>
+  <span class="arrow">→</span> 薬物療法（デュロキセチン）への情報提供もPTの役割。リハだけで解決しない問題を多職種で対応。
+</div>
+
+<div class="ref-note">※1 Hershman DL, et al. J Clin Oncol 2014（ASCO CIPN GL） / ※2 Kleckner IR, et al. Support Care Cancer 2018</div>
+</div>
+</div>
+
+<!-- 例24: 肺がん術後 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例24：肺がん術後（肺葉切除） — 呼吸リハとの統合アプローチ</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">肺がん術後</span><span class="ex-tag tag-diff">呼吸リハ統合</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>71歳男性、右上葉肺がんStage IIA（腺癌）、VATS右上葉切除術後Day3。胸腔ドレーン抜去済み。術前から軽度COPD合併（%FEV1 65%）。術後補助化学療法（CDDP+VNR）予定。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「痛くて深呼吸ができない」「痰が出しにくい」「トイレまで歩いたら息が切れた」「手術は成功と聞いたが、抗がん剤もあるのかと思うと不安」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 12.0, Plt 21万, ANC 5200, CRP 8.5（術後炎症期）<br>
+    ② 骨転移：なし（術前PET-CTで遠隔転移否定済み）<br>
+    ③ 術後Day3、CDDP+VNR予定（開始は術後4-6週）<br>
+    術式：VATS右上葉切除＋縦隔リンパ節郭清<br>
+    胸腔ドレーン：Day2抜去済み、air leak消失<br>
+    術前呼吸機能：%FVC 78%, %FEV1 65%（COPD GOLD II）<br>
+    術後SpO2：room air 93%（安静時）→ 歩行50mで88%（Borg 6）<br>
+    聴診：右上肺野 呼吸音減弱、左 清明、右下 coarse crackles（痰貯留）<br>
+    咳嗽力：weak cough（創部痛NRS 6でsplinting不十分）<br>
+    体位：右側臥位を拒否（創部痛）→ 左側臥位で過ごしている<br>
+    Hugh-Jones：III度（平地歩行で同年齢者についていけない）<br>
+    6MWD：術前350m → 術後未実施（50m歩行がやっとのため）<br>
+    ECOG PS：術前1 → 術後2
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    右上葉切除後Day3、COPD合併による呼吸予備能低下に術後の肺容量減少が加わり、労作時低酸素（SpO2 88%）を呈している。右下肺のcoarse cracklesと弱い咳嗽力から無気肺・肺炎のリスクが高い。創部痛NRS 6は排痰・深呼吸の最大の阻害因子であり、鎮痛管理の最適化が呼吸リハの前提条件※1。術前%FEV1 65%は肺葉切除の許容範囲だが※2、術後予測FEV1はさらに低下しており、長期的な呼吸機能回復には術後早期からの呼吸リハが重要。左側臥位への偏りは右肺下葉の換気を妨げ、痰貯留を悪化させる要因。4-6週後の補助化学療法開始までに可能な限り呼吸機能・体力を回復させることが目標であり、術後リハの質がその後の化学療法耐性に直結する。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・鎮痛管理：リハ30分前の追加鎮痛を主治医に依頼（NRS 3以下を目標）<br>
+    ・排痰：pillow splinting指導（創部を枕で圧迫しながらのhuffing）→ 自己排痰手技獲得<br>
+    ・体位管理：右下肺の換気改善のため、右側臥位（45°セミファウラー）を2時間/日導入<br>
+    ・深呼吸練習：IS（incentive spirometer）1時間毎×10回、目標600mL→段階的に増量<br>
+    ・離床：Day3-5は病棟内歩行100m×4回/日（SpO2 90%以上維持、適宜O2 2L併用）<br>
+    ・有酸素：Day7以降に6MWT再評価、歩行距離漸増<br>
+    ・COPD管理：退院後の吸入薬アドヒアランス確認、腹式呼吸・口すぼめ呼吸の反復指導<br>
+    ・化学療法前目標：退院後2週で6MWD 250m以上（術前の70%）、SpO2 room air 95%以上<br>
+    ・不安への対応：化学療法中もリハ継続が可能であることを説明し、外来リハ予約
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> 「肺がん術後」は腫瘍内科と呼吸器リハの統合場面。Oに呼吸器的評価（聴診・SpO2・咳嗽力）と腫瘍的評価（3点セット）の両方を書く。<br>
+  <span class="arrow">→</span> 創部痛がリハの最大の障壁。Oで「NRS 6」→Aで「鎮痛管理がリハの前提条件」→Pで「リハ30分前の追加鎮痛依頼」。痛みに対するアクションが明確。<br>
+  <span class="arrow">→</span> 補助化学療法という「次のイベント」を見据えた目標設定がAとPに反映されている。「術後回復」だけでなく「化学療法に耐えられる体力」という視点。<br>
+  <span class="arrow">→</span> Sの「不安」もPで対応。身体機能だけでなく心理的サポートもPTの役割。
+</div>
+
+<div class="ref-note">※1 Brunelli A, et al. Eur Respir J 2009（肺切除後リハ） / ※2 Brunelli A, et al. Eur J Cardiothorac Surg 2013</div>
+</div>
+</div>
+
+<!-- 例25: がん悪液質 -->
+<div class="ex-card" data-dept="onco">
+<div class="ex-head" onclick="toggleEx(this)" style="background:var(--onco-l);">
+  <h3>例25：がん悪液質（Cancer Cachexia） — 栄養介入との多職種連携</h3>
+  <div class="ex-tags"><span class="ex-tag tag-scene">悪液質</span><span class="ex-tag tag-diff">栄養連携</span></div>
+  <span class="ex-toggle">▼</span>
+</div>
+<div class="ex-body">
+<div class="scene-box">
+  <strong>場面：</strong>68歳男性、膵体部癌Stage IV（肝転移あり）、GEM+nab-PTX 2コース目施行中。直近3ヶ月で体重8kg減少（12%）。食欲不振著明。緩和的リハ目的で入院中に介入依頼。
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter s-bg">S</span><span>Subjective</span></div>
+  <div class="soap-content s-border">
+    「食べたくても食べられない」「ベッドから起きるだけで疲れる」「足が細くなって自分の足じゃないみたい」「家に帰ってお風呂に入りたい、それだけが希望」
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter o-bg">O</span><span>Objective</span></div>
+  <div class="soap-content o-border">
+    【確認の3点セット】<br>
+    ① Hb 9.8, Plt 12万, ANC 2200, Alb 2.3, CRP 5.8<br>
+    ② 骨転移：なし（肝転移は画像で確認済み）<br>
+    ③ GEM+nab-PTX 2コース目（Day8、nadir期注意）<br>
+    体重：65kg→57kg / 3ヶ月（12%減少）→ がん悪液質の定義※1に合致<br>
+    BMI：19.8 → 18.5未満への進行リスク<br>
+    食事摂取量：主食2-3割、1日推定500-600kcal（必要量の30%程度）<br>
+    上腕周囲長（AC）：22cm（標準の78%）→ 筋・脂肪ともに枯渇<br>
+    握力：右20kg / 左18kg（年齢基準の50%、サルコペニア基準※2該当）<br>
+    CS-30：3回（著明な下肢筋力低下）<br>
+    BBS：42/56（境界域）<br>
+    ADL：BI 70（入浴・階段に介助必要）<br>
+    ECOG PS：2-3<br>
+    CRP/Alb比：2.52（高度炎症・栄養障害）<br>
+    mGPS：2（CRP>10mg/L, Alb<3.5g/dL → 予後不良指標）<br>
+    患者の希望：自宅退院、入浴動作自立
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter a-bg">A</span><span>Assessment</span></div>
+  <div class="soap-content a-border">
+    がん悪液質（Fearon定義：6ヶ月で5%以上の体重減少）※1に合致。3ヶ月で12%減は進行速度が速く、refractory cachexiaへの移行リスクが高い。CRP/Alb比2.52・mGPS 2は全身性炎症と栄養障害の重複を示し、運動単独での筋蛋白合成は困難（同化抵抗性）※2。すなわち、運動療法の効果を引き出すには栄養介入（特にアミノ酸・EPA補充）との同時実施が不可欠。握力・CS-30はサルコペニア基準に該当し、ADL低下の主因は筋力不足。患者の希望は「自宅で入浴」であり、入浴動作に必要な具体的身体機能（立ち座り・浴槽跨ぎ・立位保持）を目標設定の軸とする。PS 2-3の段階では筋肥大を目的としたトレーニングは非現実的であり、「残存機能の維持＋ADL動作の効率化＋環境調整」が現実的なアプローチ。予後を考慮し、目標達成にかけられる時間軸を主治医と共有する必要がある。
+  </div>
+</div>
+
+<div class="soap-row">
+  <div class="soap-label"><span class="soap-letter p-bg">P</span><span>Plan</span></div>
+  <div class="soap-content p-border">
+    ・運動療法：低強度レジスタンス（端座位での膝伸展・立ち座り練習）＋歩行（50m×2-3回/日）<br>
+    ・入浴動作練習：浴槽跨ぎ模擬動作、シャワー椅子使用での動作手順確認<br>
+    ・栄養科連携（最重要）：リハ前後のアミノ酸補充（BCAA 5g）、EPA含有栄養補助食品、分割食への変更提案<br>
+    ・リハ実施タイミング：食事摂取後2時間、最も体調の良い時間帯に設定<br>
+    ・エネルギー消費を最小化する動作指導（省エネ動作法）<br>
+    ・退院前カンファレンス：MSW・ケアマネ・訪問リハ・訪問看護を調整<br>
+    ・退院時環境整備：浴室手すり設置、シャワー椅子、浴槽台の導入<br>
+    ・mGPS・体重・握力を週1追跡 → refractory cachexia移行時は目標再設定（緩和ケアチームと連携）<br>
+    ・主治医へ：リハの栄養所要量と現在の摂取量のギャップを数値で情報提供
+  </div>
+</div>
+
+<div class="think-box">
+  <strong>思考プロセス解説：</strong><br>
+  <span class="arrow">→</span> Sの「家に帰ってお風呂に入りたい」がゴール設定の出発点。Aで「入浴動作に必要な身体機能」に分解し、Pの具体的訓練につなげる。<br>
+  <span class="arrow">→</span> がん悪液質の「同化抵抗性」をAで明記。運動だけでは筋肉が増えないという事実を書くことで、Pの「栄養科連携（最重要）」の根拠になる。<br>
+  <span class="arrow">→</span> mGPS（modified Glasgow Prognostic Score）をOに入れることで、予後予測と目標設定のリアリティが増す。<br>
+  <span class="arrow">→</span> 「時間軸を主治医と共有」はがんリハで最も大切な視点の一つ。限られた時間の中で患者にとって最も重要な目標を達成するためにPTが主導的に動く。
+</div>
+
+<div class="ref-note">※1 Fearon K, et al. Lancet Oncol 2011（がん悪液質定義） / ※2 Argilés JM, et al. Nat Rev Clin Oncol 2014</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+  SOAP記載ガイド 3科統合学習版 — 2026年4月版<br>
+  整形外科（THA/大腿骨骨折/TKA/SCI/足関節骨折/LSS/BKP/脛骨高原骨折/DVT/PLLD） ／ 呼吸器（AECOPD/IPF/PICS/PAH/HOT/誤嚥性肺炎/気胸/デサチュレーション/サルコペニア/IMT）／ 腫瘍内科（CRF/骨転移/FN/緩和/irAE/HSCT/リンパ浮腫/CIPN/肺がん術後/悪液質）
+</footer>
+
+<script>
+// Toggle example cards
+function toggleEx(head){
+  head.closest('.ex-card').classList.toggle('collapsed');
+}
+// Filter by department
+function filterEx(dept, btn){
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.ex-section').forEach(sec => {
+    if(dept === 'all') { sec.style.display = ''; return; }
+    sec.style.display = sec.dataset.dept === dept ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
