@@ -10,6 +10,7 @@
   --resp:  #145A32; --resp-light:  #E8F8F0;
   --onco:  #6E2F76; --onco-light:  #F5EEF8;
   --user:  #7D6608; --user-light:  #FEF9E7;
+  --sci:   #00695C; --sci-light:   #E0F2F1;
   --bg: #F4F6F9; --white: #fff;
   --text: #1a1a2e; --muted: #718096;
   --border: #E2E8F0;
@@ -38,6 +39,7 @@ body { font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif; 
 .dept-btn.active-resp   { background:var(--resp);  color:#fff; border-color:var(--resp); }
 .dept-btn.active-onco   { background:var(--onco);  color:#fff; border-color:var(--onco); }
 .dept-btn.active-user   { background:var(--user);  color:#fff; border-color:var(--user); }
+.dept-btn.active-sci    { background:var(--sci);   color:#fff; border-color:var(--sci); }
 .dept-btn.active-gl     { background:#0E6655; color:#fff; border-color:#0E6655; }
 .dept-btn.active-sr     { background:#922B21; color:#fff; border-color:#922B21; }
 .result-count { font-size:12px; color:var(--muted); white-space:nowrap; margin-left:auto; }
@@ -71,6 +73,7 @@ body { font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif; 
 .section-head.dept-resp  { background:var(--resp); }
 .section-head.dept-onco  { background:var(--onco); }
 .section-head.dept-user  { background:var(--user); }
+.section-head.dept-sci   { background:var(--sci); }
 .sec-icon { font-size:18px; }
 .sec-name { font-size:14px; font-weight:700; flex:1; }
 .sec-cnt { background:rgba(255,255,255,.22); border-radius:12px; padding:2px 10px; font-size:11px; }
@@ -89,6 +92,7 @@ body { font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif; 
 .num-resp  { background:var(--resp-light);  color:var(--resp); }
 .num-onco  { background:var(--onco-light);  color:var(--onco); }
 .num-user  { background:var(--user-light);  color:var(--user); }
+.num-sci   { background:var(--sci-light);   color:var(--sci); }
 .ref-body { flex:1; min-width:0; }
 .ref-text { font-size:13px; line-height:1.55; }
 .ref-text mark { background:#FEF3C7; padding:0 2px; border-radius:2px; }
@@ -121,12 +125,13 @@ footer { text-align:center; color:#aaa; padding:24px; font-size:11px; }
 
 <div class="header">
   <h1>📚 リハビリ 引用文献一覧</h1>
-  <p>整形外科 ／ 呼吸器リハビリ ／ 腫瘍内科リハビリ — 統合版</p>
+  <p>整形外科 ／ 脊髄損傷（SCI）／ 呼吸器リハビリ ／ 腫瘍内科リハビリ — 統合版</p>
   <div class="stats-bar">
     <div class="stat"><div class="num" id="s-total">0</div><div class="lbl">総文献数</div></div>
     <div class="stat"><div class="num" id="s-ortho">0</div><div class="lbl">🦴 整形外科</div></div>
     <div class="stat"><div class="num" id="s-resp">0</div><div class="lbl">🫁 呼吸器</div></div>
     <div class="stat"><div class="num" id="s-onco">0</div><div class="lbl">🩺 腫瘍内科</div></div>
+    <div class="stat"><div class="num" id="s-sci">0</div><div class="lbl">⚡ SCI</div></div>
     <div class="stat"><div class="num" id="s-user">0</div><div class="lbl">✏️ 自分で追加</div></div>
   </div>
 </div>
@@ -138,6 +143,7 @@ footer { text-align:center; color:#aaa; padding:24px; font-size:11px; }
     <button class="dept-btn" data-f="ortho" onclick="setFilter(this)">🦴 整形外科</button>
     <button class="dept-btn" data-f="resp"  onclick="setFilter(this)">🫁 呼吸器</button>
     <button class="dept-btn" data-f="onco"  onclick="setFilter(this)">🩺 腫瘍内科</button>
+    <button class="dept-btn" data-f="sci"   onclick="setFilter(this)">⚡ SCI</button>
     <button class="dept-btn" data-f="user"  onclick="setFilter(this)">✏️ 自分で追加</button>
     <button class="dept-btn" data-f="gl"    onclick="setFilter(this)">📘 GL</button>
     <button class="dept-btn" data-f="sr"    onclick="setFilter(this)">⚗️ SR/RCT</button>
@@ -186,7 +192,7 @@ footer { text-align:center; color:#aaa; padding:24px; font-size:11px; }
 <div class="no-results" id="noResults">該当する文献が見つかりません</div>
 </div>
 
-<footer>整形外科リハビリ臨床教育マニュアル ／ 呼吸器リハビリ ワードパレット v7 ／ 腫瘍内科リハビリ ワードパレット v7 — 統合引用文献集<br>
+<footer>整形外科リハビリ臨床教育マニュアル ／ 脊髄損傷リハビリ ／ 呼吸器リハビリ ワードパレット v7 ／ 腫瘍内科リハビリ ワードパレット v7 — 統合引用文献集<br>
 各リンクは外部サイト（PubMed・DOI・PMC）に接続します。文献の著作権は各出版社に帰属します。<br>
 ✏️ 自分で追加した文献はこのブラウザに保存されます。</footer>
 
@@ -265,6 +271,37 @@ const DATA = [
   { text:"Korovessis P, et al. Incidence of adjacent vertebral fractures: conservative vs VP/BKP — SR and meta-analysis. Front Surg. 2025.", tags:["sr"], doi:"10.3389/fsurg.2025.1594217", pmcLink:"https://pmc.ncbi.nlm.nih.gov/articles/PMC12129978/pdf/", cats:["spine","sr"] },
   { text:"NASS Guidelines (September 2024 Update). Osteoporotic and neoplastic vertebral compression fractures.", tags:["gl"], cats:["guideline","spine"], web:"https://www.spine.org/Research-Clinical-Care/Quality-Improvement/Clinical-Guidelines" },
   { text:"Cheng Y, et al. Incidence and risk factors of adjacent vertebral fracture after VP/BKP in postmenopausal women. Sci Rep. 2024;14:18103.", tags:[], pubmed:"39097669", doi:"10.1038/s41598-024-68835-4", cats:["spine"] },
+]},
+
+// ==================== SCI（脊髄損傷） ====================
+{ dept:"sci", icon:"⚡", title:"D 脊髄損傷（SCI）", sub:"Spinal Cord Injury", refs:[
+  { text:"Miyakoshi N, et al. Nationwide survey of spinal cord injuries in Japan (2018): Epidemiological study on incidence and prevalence. Spinal Cord. 2021;59(10):1070-1076.", tags:[], pubmed:"34135470", doi:"10.1038/s41393-021-00660-0", cats:["sci"] },
+  { text:"Shingu H, et al. A nationwide epidemiological survey of spinal cord injuries in Japan from January 1990 to December 1992. Paraplegia. 1995;33(4):183-188.", tags:[], pubmed:"7609826", doi:"10.1038/sc.1995.42", cats:["sci","ja"] },
+  { text:"Kirshblum SC, et al. Patterns of sacral sparing components on neurological recovery in newly injured persons with traumatic SCI. Arch Phys Med Rehabil. 2021;102(12):2300-2308.", tags:[], pubmed:"34280375", doi:"10.1016/j.apmr.2021.06.021", cats:["sci"] },
+  { text:"Scivoletto G, et al. Prediction of walking recovery after spinal cord injury. Brain Res Bull. 2014;110:40-46.", tags:[], pubmed:"25305479", doi:"10.1016/j.brainresbull.2014.10.003", cats:["sci"] },
+  { text:"van Middendorp JJ, et al. A clinical prediction rule for ambulation outcomes after traumatic spinal cord injury: a longitudinal cohort study. Lancet. 2011;377(9770):1004-1010.", tags:["rct"], pubmed:"21377202", doi:"10.1016/S0140-6736(10)62276-3", cats:["sci"] },
+  { text:"Ariji Y, et al. Predictive model for functional independence measure in patients with spinal cord injury at 6 months. Spinal Cord. 2020;58(10):1068-1075.", tags:[], pubmed:"32398713", doi:"10.1038/s41393-020-0478-5", cats:["sci"] },
+  { text:"Oyasu T, et al. Walking recovery prediction in incomplete spinal cord injury: WISCI II outcomes at 6 months. J Spinal Cord Med. 2024.", tags:[], cats:["sci"], scholar:"Oyasu WISCI II incomplete spinal cord injury AIS C walking recovery 2024" },
+  { text:"Dietz V, et al. Locomotor activity in spinal cord-injured persons. J Appl Physiol. 2014;96(5):1954-1960.", tags:[], pubmed:"14698998", doi:"10.1152/japplphysiol.00942.2003", cats:["sci"] },
+  { text:"Hornby TG, et al. Clinical practice guideline to improve locomotor function following chronic stroke, incomplete SCI, and brain injury. J Neurol Phys Ther. 2020;44(1):49-100.", tags:["gl"], pubmed:"31834165", doi:"10.1097/NPT.0000000000000303", cats:["sci","guideline"] },
+  { text:"Zhe Ying, et al. Exercise restores levels of neurotrophins and synaptic plasticity following spinal cord injury. Exp Neurol. 2005;193(2):411-419.", tags:[], pubmed:"15869943", doi:"10.1016/j.expneurol.2005.01.015", cats:["sci"] },
+  { text:"Raineteau O, Schwab ME. Plasticity of motor systems after incomplete spinal cord injury. Nat Rev Neurosci. 2001;2(4):263-273.", tags:["sr"], pubmed:"11283749", doi:"10.1038/35067570", cats:["sci","sr"] },
+  { text:"Ohnishi Y, et al. Activity-dependent modulation of spinal reflexes in humans. J Neurophysiol. 2012;108(12):3343-3348.", tags:[], doi:"10.1152/jn.00517.2012", cats:["sci"] },
+  { text:"van den Brand R, et al. Restoring voluntary control of locomotion after paralyzing spinal cord injury. Science. 2012;336(6085):1182-1185.", tags:["rct"], pubmed:"22654062", doi:"10.1126/science.1217416", cats:["sci"] },
+  { text:"冨田昌夫. 治療的誘導の基本概念. 理学療法ジャーナル. 1997;31(11):821-828.", tags:["ja"], cats:["sci","ja"], scholar:"冨田昌夫 治療的誘導 理学療法ジャーナル 1997" },
+  { text:"冨田昌夫. ハンドリングにおける治療的誘導. 理学療法学. 1998;25(4):207-213.", tags:["ja"], cats:["sci","ja"], scholar:"冨田昌夫 ハンドリング 治療的誘導 1998" },
+  { text:"田島文博(監修). 脊髄損傷リハビリテーションマニュアル(第3版). 医学書院; 2016.", tags:["ja","gl"], cats:["sci","guideline","ja"], scholar:"田島文博 脊髄損傷リハビリテーションマニュアル 第3版 医学書院 2016" },
+  { text:"Jørgensen V, et al. Falls and fear of falling predict future falls and related injuries in ambulatory people with SCI: a longitudinal observational study. J Physiother. 2017;63(2):108-113.", tags:[], pubmed:"28325482", doi:"10.1016/j.jphys.2017.02.013", cats:["sci"] },
+  { text:"Kalsi-Ryan S, et al. The Graded Redefined Assessment of Strength, Sensibility and Prehension (GRASSP): reliability and validity. J Neurotrauma. 2012;29(5):905-914.", tags:[], pubmed:"21568688", doi:"10.1089/neu.2010.1504", cats:["sci"] },
+  { text:"Anderson KD. Targeting recovery: priorities of the spinal cord-injured population. J Neurotrauma. 2004;21(10):1371-1383.", tags:[], pubmed:"15672628", doi:"10.1089/neu.2004.21.1371", cats:["sci"] },
+  { text:"Moseley GL. Graded motor imagery for pathologic pain: a randomized controlled trial. Neurology. 2006;67(12):2129-2134.", tags:["rct"], pubmed:"17082465", doi:"10.1212/01.wnl.0000249112.56935.32", cats:["sci"] },
+  { text:"Menter RR. Aging and spinal cord injury: implications for rehabilitation. Top Spinal Cord Inj Rehabil. 1995;1(2):29-35.", tags:[], cats:["sci"], scholar:"Menter aging spinal cord injury implications rehabilitation 1995" },
+  { text:"Koo TKK, et al. Barriers to early mobilization in patients with acute spinal cord injury. Spinal Cord. 2016;54(1):64-68.", tags:[], doi:"10.1038/sc.2015.114", cats:["sci"] },
+  { text:"横山修, 他. 脊髄損傷のAIS変換率: 日本多施設データ. 日本脊髄障害医学会雑誌. 2019;32(1):52-58.", tags:["ja"], cats:["sci","ja"], scholar:"横山修 脊髄損傷 AIS変換率 日本多施設 2019" },
+  { text:"須蕨潤一, 他. 急性期脊髄損傷における麻痺回復推移の検討. リハビリテーション医学. 2009;46(8):522-528.", tags:["ja"], cats:["sci","ja"], scholar:"須蕨 急性期脊髄損傷 麻痺回復推移 リハビリテーション医学 2009" },
+  { text:"陣林奈央, 他. 三次医療圏別脊髄損傷発生率の分析. 日本リハビリテーション医学会雑誌. 2025.", tags:["ja"], cats:["sci","ja"], scholar:"陣林 三次医療圏 脊髄損傷 発生率 2025" },
+  { text:"Fehlings MG, et al. RECODE-DCM: Research Objectives and Common Data Elements for DCM. Global Spine J. 2022;12(1_suppl):7S-12S.", tags:["gl"], pubmed:"35174723", doi:"10.1177/21925682211035379", cats:["sci","guideline"] },
+  { text:"Catz A, et al. SCIM III: Spinal Cord Independence Measure version III — comprehensive reliability and validity. Spinal Cord. 2007;45(12):850-856.", tags:[], pubmed:"17684561", doi:"10.1038/sj.sc.3102034", cats:["sci"] },
 ]},
 
 // ==================== 呼吸器 ====================
@@ -352,7 +389,7 @@ const DATA = [
 // ================================================================
 const STORAGE_KEY = 'rehab_refs_v2';
 let allCards = [], globalNum = 0, activeFilter = 'all';
-const deptCount = {ortho:0, resp:0, onco:0, user:0};
+const deptCount = {ortho:0, resp:0, onco:0, sci:0, user:0};
 
 function loadUserRefs(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }catch(e){ return []; } }
 function saveUserRefs(r){ localStorage.setItem(STORAGE_KEY, JSON.stringify(r)); }
@@ -404,7 +441,7 @@ function renderAll(){
   mc.innerHTML = '';
   allCards = [];
   globalNum = 0;
-  deptCount.ortho = deptCount.resp = deptCount.onco = deptCount.user = 0;
+  deptCount.ortho = deptCount.resp = deptCount.onco = deptCount.sci = deptCount.user = 0;
 
   // Built-in sections
   DATA.forEach(sec => {
@@ -418,7 +455,7 @@ function renderAll(){
     const list = document.createElement('div'); list.className = 'ref-list';
     sec.refs.forEach(ref => {
       globalNum++;
-      deptCount[sec.dept]++;
+      if(deptCount[sec.dept] !== undefined) deptCount[sec.dept]++;
       const c = makeCard(ref, sec.dept, globalNum, false, -1);
       list.appendChild(c);
       allCards.push(c);
@@ -455,6 +492,7 @@ function renderAll(){
   document.getElementById('s-ortho').textContent = deptCount.ortho;
   document.getElementById('s-resp').textContent  = deptCount.resp;
   document.getElementById('s-onco').textContent  = deptCount.onco;
+  document.getElementById('s-sci').textContent   = deptCount.sci;
   document.getElementById('s-user').textContent  = deptCount.user;
 
   applyFilters();
@@ -469,7 +507,8 @@ function applyFilters(){
     const txt  = card.dataset.search;
     const mDept = activeFilter === 'all' || dept === activeFilter ||
       (activeFilter === 'gl'  && cats.includes('guideline')) ||
-      (activeFilter === 'sr'  && (cats.includes('sr') || cats.includes('rct')));
+      (activeFilter === 'sr'  && (cats.includes('sr') || cats.includes('rct'))) ||
+      (activeFilter === 'sci' && dept === 'sci');
     const mQ = !q || txt.includes(q);
     const show = mDept && mQ;
     card.classList.toggle('hidden', !show);
